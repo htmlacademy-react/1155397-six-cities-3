@@ -19,7 +19,7 @@ function App({foundPlacesCount}: AppProps) {
         <Route path="/login" element={ <Login /> } />
         <Route path="/offer/:id" element={ <Offer /> } />
         <Route path="/favorites" element={
-          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+          <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
             <Favorites />
           </PrivateRoute>
         }
