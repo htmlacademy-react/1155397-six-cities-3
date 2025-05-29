@@ -1,11 +1,14 @@
-import CitiesCard from '../../components/citiesCard/cities-card';
+import { Offers } from '../../types/offers';
+import { PlaceCardClassNamePrefix } from '../../const';
+import PlacesList from '../../components/places-list/places-list';
 
-type FoundPlacesCount = {
+type MainPageProps = {
+  offers: Offers;
   foundPlacesCount: number;
 }
 
 
-function MainPage({foundPlacesCount}: FoundPlacesCount) {
+function MainPage({offers, foundPlacesCount}: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,12 +98,7 @@ function MainPage({foundPlacesCount}: FoundPlacesCount) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {/* Список карточек */}
-                <CitiesCard />
-                <CitiesCard />
-                <CitiesCard />
-                <CitiesCard />
-                <CitiesCard />
+                <PlacesList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} />
               </div>
             </section>
             <div className="cities__right-section">

@@ -5,22 +5,24 @@ import MainPage from '../../pages/main-page/main-page';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import NotFound from '../../pages/not-found/not-found';
-import Offer from '../../pages/offer/offer';
+import OfferPage from '../../pages/offer/offer';
+import { Offers } from '../../types/offers';
 
 type AppProps = {
+    offers: Offers;
     foundPlacesCount: number;
 };
 
-function App({foundPlacesCount}: AppProps) {
+function App({offers, foundPlacesCount}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={ <MainPage foundPlacesCount={foundPlacesCount} />} />
+        <Route path='/' element={ <MainPage offers={offers} foundPlacesCount={foundPlacesCount} />} />
         <Route path="/login" element={ <Login /> } />
-        <Route path="/offer/:id" element={ <Offer /> } />
+        <Route path="/offer/:offerId" element={ <OfferPage offers={offers} /> } />
         <Route path="/favorites" element={
-          <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-            <Favorites />
+          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <Favorites offers={offers} />
           </PrivateRoute>
         }
         />
