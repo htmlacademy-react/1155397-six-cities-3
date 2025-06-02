@@ -1,35 +1,39 @@
-import { useState } from 'react';
+import { viewPlaceCardVariants } from '../../const';
 import { Offer } from '../../types/offers';
 import { calculateStarRating } from '../../utils';
 import { Link } from 'react-router-dom';
 
 type PlaceCardProps = {
   offer: Offer;
-  classNamePrefix: string;
-  imgSize: {width: string; height: string};
+  onPlaceCardHover?: () => void;
+  onPlaceCardLeave?: () => void;
+  viewPlaceCardVariant: keyof typeof viewPlaceCardVariants;
 }
 
-function PlaceCard({offer, classNamePrefix, imgSize}: PlaceCardProps) {
+function PlaceCard({offer, onPlaceCardHover, onPlaceCardLeave, viewPlaceCardVariant}: PlaceCardProps) {
   const {id, title, type, price, isFavorite, isPremium, rating, images} = offer;
   const favoriteClass = isFavorite ? 'place-card__bookmark-button--active button' : '';
-  const previewImg = images[0];
-  const [activeCard, setActiveCard] = useState('');
-  const isActive = (activeCard) ? '' : null;
-
-  const mouseOnCardHandler = (offerId: string): void => {
-    setActiveCard(offerId);
-  };
+  const [previewImage] = images;
 
   return (
-    <article onMouseEnter={() => mouseOnCardHandler(offer.id)} className={`${classNamePrefix}__card place-card`}>
-      {isActive}
+    <article
+      className={`${viewPlaceCardVariants[viewPlaceCardVariant].prefix}__card place-card`}
+      onMouseEnter={onPlaceCardHover}
+      onMouseLeave={onPlaceCardLeave}
+    >
+
       {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className={`${classNamePrefix}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${viewPlaceCardVariants[viewPlaceCardVariant].prefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src={`${previewImg}`} width={`${imgSize.width}`} height={`${imgSize.height}`} alt="Place image" />
+          <img
+            className="place-card__image" src={`${previewImage}`}
+            width={`${viewPlaceCardVariants[viewPlaceCardVariant].imageWidth}`}
+            height={`${viewPlaceCardVariants[viewPlaceCardVariant].imageHeight}`}
+            alt="Place image"
+          />
         </a>
       </div>
       <div className="place-card__info">

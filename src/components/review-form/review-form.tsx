@@ -7,7 +7,7 @@ function ReviewForm() {
   });
 
   const starRatingChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
-    setFormData({...formData, rating: +target.value});
+    setFormData({...formData, rating: Number(target.value)});
   };
 
   const reviewTextChangeHandler = ({target}: ChangeEvent<HTMLTextAreaElement>) => {

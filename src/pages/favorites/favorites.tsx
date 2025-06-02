@@ -1,6 +1,5 @@
 import { Offers } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
-import { PlaceCardClassNamePrefix } from '../../const';
 
 type FavoritesProps = {
   offers: Offers;
@@ -8,12 +7,7 @@ type FavoritesProps = {
 
 function Favorites({offers}: FavoritesProps) {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const cities = favoriteOffers.reduce((newOffers: string[], offer) => {
-    if (!newOffers.includes(offer.city.name)) {
-      newOffers.push(offer.city.name);
-    }
-    return newOffers;
-  }, []);
+  const cities = [...new Set(favoriteOffers.map(({ city }) => city.name))];
 
   return(
     <main className="page__main page__main--favorites">
@@ -34,7 +28,7 @@ function Favorites({offers}: FavoritesProps) {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      <PlacesList offers={offerOfCity} classNamePrefix={PlaceCardClassNamePrefix.Favorites}/>
+                      <PlacesList offers={offerOfCity} viewPlaceCardVariant={'favorite'}/>
                     </div>
                   </li>
                 );

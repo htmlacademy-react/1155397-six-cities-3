@@ -1,18 +1,39 @@
 import { Offers, Offer } from '../../types/offers';
-import { PlaceCardClassNamePrefix, PlaceCardImageSize } from '../../const';
+import { viewPlaceCardVariants } from '../../const';
 import PlaceCard from '../place-card/place-card';
+import { useState } from 'react';
 
 type PlaceListProps = {
   offers: Offers;
-  classNamePrefix: PlaceCardClassNamePrefix;
-}
+  viewPlaceCardVariant: keyof typeof viewPlaceCardVariants;
+};
 
-function PlacesList({offers, classNamePrefix}: PlaceListProps) {
-  const imgSize = (classNamePrefix === PlaceCardClassNamePrefix.Main) ? PlaceCardImageSize.STANDART : PlaceCardImageSize.SMALL;
+function PlacesList({offers, viewPlaceCardVariant}: PlaceListProps) {
+  const [hoverPlaceId, setHoverPlaceId] = useState('');
+
+  function handlePlaceMouseEnter(id: string | null) {
+    if(!id) {
+      return;
+    }
+    setHoverPlaceId(id);
+  }
+
+  function handlePlaceMouseLeave() {
+    setHoverPlaceId('');
+  }
+
   return(
     <>
+      {/* // WIP - чтобы линтер не ругался пока пробросил значение стейта в спан и скрыл */}
+      <span style={{display: 'none'}}>{hoverPlaceId}</span>
       {offers.map((offer: Offer): JSX.Element => (
-        <PlaceCard offer={offer} key={offer.id} classNamePrefix={classNamePrefix} imgSize={imgSize}/>
+        <PlaceCard
+          offer={offer}
+          key={offer.id}
+          viewPlaceCardVariant={viewPlaceCardVariant}
+          onPlaceCardHover={() => handlePlaceMouseEnter(offer.id)}
+          onPlaceCardLeave={handlePlaceMouseLeave}
+        />
       ))}
     </>
   );

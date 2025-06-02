@@ -1,12 +1,10 @@
 import { Offers } from '../../types/offers';
-import { PlaceCardClassNamePrefix } from '../../const';
 import PlacesList from '../../components/places-list/places-list';
 
 type MainPageProps = {
   offers: Offers;
   foundPlacesCount: number;
 }
-
 
 function MainPage({offers, foundPlacesCount}: MainPageProps) {
   return (
@@ -98,7 +96,10 @@ function MainPage({offers, foundPlacesCount}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlacesList offers={offers} classNamePrefix={PlaceCardClassNamePrefix.Main} />
+                <PlacesList
+                  offers={offers}
+                  viewPlaceCardVariant={'primary'}
+                />
               </div>
             </section>
             <div className="cities__right-section">
