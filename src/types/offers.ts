@@ -28,7 +28,7 @@ export type TOffer = {
     goods: string[];
     images: string[];
     maxAdults: number;
-    location: Location;
+    location: TLocation;
     city: TCity;
     host: THost;
 };
