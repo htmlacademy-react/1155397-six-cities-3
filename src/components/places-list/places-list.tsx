@@ -1,38 +1,29 @@
-import { Offers, Offer } from '../../types/offers';
-import { viewPlaceCardVariants } from '../../const';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { TOffers, TOffer} from '../../types/offers';
+import { CardVariants } from '../../const';
 import PlaceCard from '../place-card/place-card';
 import { useState } from 'react';
 
-type PlaceListProps = {
-  offers: Offers;
-  viewPlaceCardVariant: keyof typeof viewPlaceCardVariants;
+type TPlaceListProps = {
+  offers: TOffers;
+  cardVariant: keyof typeof CardVariants;
 };
 
-function PlacesList({offers, viewPlaceCardVariant}: PlaceListProps) {
-  const [hoverPlaceId, setHoverPlaceId] = useState('');
+function PlacesList({offers, cardVariant}: TPlaceListProps) {
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  function handlePlaceMouseEnter(id: string | null) {
-    if(!id) {
-      return;
-    }
-    setHoverPlaceId(id);
-  }
-
-  function handlePlaceMouseLeave() {
-    setHoverPlaceId('');
-  }
+  const handleSetActiveOfferId = (id: string | null) => setActiveOfferId(id);
+  const handleClearActiveOfferId = () => setActiveOfferId(null);
 
   return(
     <>
-      {/* // WIP - чтобы линтер не ругался пока пробросил значение стейта в спан и скрыл */}
-      <span style={{display: 'none'}}>{hoverPlaceId}</span>
-      {offers.map((offer: Offer): JSX.Element => (
+      {offers.map((offer: TOffer): JSX.Element => (
         <PlaceCard
           offer={offer}
           key={offer.id}
-          viewPlaceCardVariant={viewPlaceCardVariant}
-          onPlaceCardHover={() => handlePlaceMouseEnter(offer.id)}
-          onPlaceCardLeave={handlePlaceMouseLeave}
+          variant={cardVariant}
+          onPlaceCardHover={() => handleSetActiveOfferId(offer.id)}
+          onPlaceCardLeave={() => handleClearActiveOfferId()}
         />
       ))}
     </>

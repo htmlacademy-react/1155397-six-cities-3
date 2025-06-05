@@ -1,37 +1,40 @@
-import { viewPlaceCardVariants } from '../../const';
-import { Offer } from '../../types/offers';
+import { CardVariants } from '../../const';
+import { TOffer } from '../../types/offers';
 import { calculateStarRating } from '../../utils';
 import { Link } from 'react-router-dom';
 
+type TPlaceCardVariant = keyof typeof CardVariants;
+
 type PlaceCardProps = {
-  offer: Offer;
+  offer: TOffer;
+  variant: TPlaceCardVariant;
   onPlaceCardHover?: () => void;
   onPlaceCardLeave?: () => void;
-  viewPlaceCardVariant: keyof typeof viewPlaceCardVariants;
 }
 
-function PlaceCard({offer, onPlaceCardHover, onPlaceCardLeave, viewPlaceCardVariant}: PlaceCardProps) {
+function PlaceCard({offer, variant, onPlaceCardHover, onPlaceCardLeave}: PlaceCardProps) {
   const {id, title, type, price, isFavorite, isPremium, rating, images} = offer;
+  const {prefix, width, height} = CardVariants[variant];
   const favoriteClass = isFavorite ? 'place-card__bookmark-button--active button' : '';
   const [previewImage] = images;
 
   return (
     <article
-      className={`${viewPlaceCardVariants[viewPlaceCardVariant].prefix}__card place-card`}
+      className={`${prefix}__card place-card`}
       onMouseEnter={onPlaceCardHover}
       onMouseLeave={onPlaceCardLeave}
     >
-
       {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className={`${viewPlaceCardVariants[viewPlaceCardVariant].prefix}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${prefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img
-            className="place-card__image" src={`${previewImage}`}
-            width={`${viewPlaceCardVariants[viewPlaceCardVariant].imageWidth}`}
-            height={`${viewPlaceCardVariants[viewPlaceCardVariant].imageHeight}`}
+            className="place-card__image"
+            src={previewImage}
+            width={width}
+            height={height}
             alt="Place image"
           />
         </a>

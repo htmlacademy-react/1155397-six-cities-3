@@ -1,8 +1,8 @@
-import { Offers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
 
 type FavoritesProps = {
-  offers: Offers;
+  offers: TOffers;
 };
 
 function Favorites({offers}: FavoritesProps) {
@@ -28,7 +28,7 @@ function Favorites({offers}: FavoritesProps) {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      <PlacesList offers={offerOfCity} viewPlaceCardVariant={'favorite'}/>
+                      <PlacesList offers={offerOfCity} cardVariant={'favorite'}/>
                     </div>
                   </li>
                 );

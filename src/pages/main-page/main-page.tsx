@@ -1,12 +1,12 @@
-import { Offers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
 
-type MainPageProps = {
-  offers: Offers;
+type TMainPageProps = {
+  offers: TOffers;
   foundPlacesCount: number;
 }
 
-function MainPage({offers, foundPlacesCount}: MainPageProps) {
+function MainPage({offers, foundPlacesCount}: TMainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -98,7 +98,7 @@ function MainPage({offers, foundPlacesCount}: MainPageProps) {
               <div className="cities__places-list places__list tabs__content">
                 <PlacesList
                   offers={offers}
-                  viewPlaceCardVariant={'primary'}
+                  cardVariant={'primary'}
                 />
               </div>
             </section>

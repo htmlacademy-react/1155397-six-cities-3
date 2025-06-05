@@ -1,6 +1,6 @@
-import { Offers } from '../types/offers';
+import { TOffers } from '../types/offers';
 
-const offers: Offers = [
+const offers: TOffers = [
   {
     id: '1adfasq1231',
     title: 'Place title 1',

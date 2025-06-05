@@ -1,11 +1,11 @@
-import { Offers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 import { useParams } from 'react-router-dom';
 import { calculateStarRating } from '../../utils';
 import ReviewForm from '../../components/review-form/review-form';
 import NotFound from '../not-found/not-found';
 
 type OfferPageProps = {
-  offers: Offers;
+  offers: TOffers;
 }
 
 function OfferPage({offers}: OfferPageProps) {

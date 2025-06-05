@@ -9,7 +9,7 @@ export enum RoutePath {
   NotFound = '*',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:offerId',
+  Offer = '/offer',
 }
 
 export enum PlaceCardClassNamePrefix {
@@ -17,15 +17,16 @@ export enum PlaceCardClassNamePrefix {
   Favorites = 'favorites'
 }
 
-
-export const PlaceCardImageSize = {
-  SMALL: {'width': '150', 'height': '110'},
-  STANDART: {'width': '260', 'height': '200'}
-} as const;
-
-
-export const viewPlaceCardVariants = {
-  primary: { prefix: 'cities', imageWidth: 260, imageHeight: 200 },
-  favorite: { prefix: 'favorites', imageWidth: 150, imageHeight: 110 },
-  near: { prefix: 'near-places', imageWidth: 150, imageHeight: 110 }
+export const CardVariants = {
+  primary: { prefix: 'cities', width: 260, height: 200 },
+  favorite: { prefix: 'favorites', width: 150, height: 110 },
+  near: { prefix: 'near-places', width: 150, height: 110 }
 };
+
+export const starRating = [
+  { starCount: 5, title: 'perfect' },
+  { starCount: 4, title: 'good' },
+  { starCount: 3, title: 'not bad' },
+  { starCount: 2, title: 'badly' },
+  { starCount: 1, title: 'terribly', }
+];
