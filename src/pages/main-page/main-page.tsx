@@ -1,5 +1,6 @@
 import { TOffers } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
+import Map from '../../components/map/map';
 
 type TMainPageProps = {
   offers: TOffers;
@@ -103,7 +104,6 @@ function MainPage({offers, foundPlacesCount}: TMainPageProps) {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
             </div>
           </div>
         </div>
