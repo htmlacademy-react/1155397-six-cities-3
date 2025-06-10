@@ -1,30 +1,32 @@
-import {AuthorizationStatus} from '../../const';
+import { AuthorizationStatus, RoutePath } from '../../const';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoute from '../private-route';
 import MainPage from '../../pages/main-page/main-page';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import NotFound from '../../pages/not-found/not-found';
-import Offer from '../../pages/offer/offer';
+import OfferPage from '../../pages/offer/offer';
+import { TOffers } from '../../types/offers';
 
-type AppProps = {
+type TAppProps = {
+    offers: TOffers;
     foundPlacesCount: number;
 };
 
-function App({foundPlacesCount}: AppProps) {
+function App({offers, foundPlacesCount}: TAppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={ <MainPage foundPlacesCount={foundPlacesCount} />} />
-        <Route path="/login" element={ <Login /> } />
-        <Route path="/offer/:id" element={ <Offer /> } />
-        <Route path="/favorites" element={
-          <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-            <Favorites />
+        <Route path={RoutePath.Main} element={ <MainPage offers={offers} foundPlacesCount={foundPlacesCount} />} />
+        <Route path={RoutePath.Login} element={ <Login /> } />
+        <Route path={`${RoutePath.Offer}/:offerId`} element={ <OfferPage offers={offers} /> } />
+        <Route path={RoutePath.Favorites} element={
+          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <Favorites offers={offers} />
           </PrivateRoute>
         }
         />
-        <Route path="*" element={ <NotFound /> }></Route>
+        <Route path={RoutePath.NotFound} element={ <NotFound /> }></Route>
       </Routes>
     </BrowserRouter>
   );

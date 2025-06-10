@@ -1,11 +1,12 @@
-import CitiesCard from '../../components/citiesCard/cities-card';
+import { TOffers } from '../../types/offers';
+import PlacesList from '../../components/places-list/places-list';
 
-type FoundPlacesCount = {
+type TMainPageProps = {
+  offers: TOffers;
   foundPlacesCount: number;
 }
 
-
-function MainPage({foundPlacesCount}: FoundPlacesCount) {
+function MainPage({offers, foundPlacesCount}: TMainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,12 +96,10 @@ function MainPage({foundPlacesCount}: FoundPlacesCount) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {/* Список карточек */}
-                <CitiesCard />
-                <CitiesCard />
-                <CitiesCard />
-                <CitiesCard />
-                <CitiesCard />
+                <PlacesList
+                  offers={offers}
+                  cardVariant={'primary'}
+                />
               </div>
             </section>
             <div className="cities__right-section">
