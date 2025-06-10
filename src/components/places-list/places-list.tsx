@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TOffers, TOffer} from '../../types/offers';
 import { CardVariants } from '../../const';
 import PlaceCard from '../place-card/place-card';
@@ -10,7 +9,7 @@ type TPlaceListProps = {
 };
 
 function PlacesList({offers, cardVariant}: TPlaceListProps) {
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+  const [, setActiveOfferId] = useState<string | null>(null);
 
   const handleSetActiveOfferId = (id: string | null) => setActiveOfferId(id);
   const handleClearActiveOfferId = () => setActiveOfferId(null);
