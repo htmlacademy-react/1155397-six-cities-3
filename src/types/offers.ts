@@ -33,4 +33,10 @@ export type TOffer = {
     host: THost;
 };
 
+export type TMapPin = {
+    iconUrl: string;
+    iconSize: number[];
+    iconAnchor: number[];
+}
+
 export type TOffers = TOffer[];

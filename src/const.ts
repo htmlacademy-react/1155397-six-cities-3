@@ -30,3 +30,8 @@ export const starRating = [
   { starCount: 2, title: 'badly' },
   { starCount: 1, title: 'terribly', }
 ];
+
+export const LEAFLET_TILE_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+export const LEAFLET_TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+export const LEAFLET_DEFAULT_PIN = 'img/pin.svg';
+export const LEAFLET_ACTIVE_PIN = 'img/pin-active.svg';

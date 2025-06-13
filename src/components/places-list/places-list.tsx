@@ -6,13 +6,21 @@ import { useState } from 'react';
 type TPlaceListProps = {
   offers: TOffers;
   cardVariant: keyof typeof CardVariants;
+  onActiveOfferChange: (id: string | null) => void;
 };
 
-function PlacesList({offers, cardVariant}: TPlaceListProps) {
+function PlacesList({offers, cardVariant, onActiveOfferChange}: TPlaceListProps) {
   const [, setActiveOfferId] = useState<string | null>(null);
 
-  const handleSetActiveOfferId = (id: string | null) => setActiveOfferId(id);
-  const handleClearActiveOfferId = () => setActiveOfferId(null);
+  const handleSetActiveOfferId = (id: string | null) => {
+    setActiveOfferId(id);
+    onActiveOfferChange(id);
+  };
+
+  const handleClearActiveOfferId = () => {
+    setActiveOfferId(null);
+    onActiveOfferChange(null);
+  };
 
   return(
     <>

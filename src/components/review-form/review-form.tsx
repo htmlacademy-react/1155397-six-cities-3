@@ -14,14 +14,6 @@ function ReviewForm() {
     setFormData({ ...formData, [type]: type === 'rating' ? Number(target.value) : target.value });
   };
 
-  // const starRatingChangeHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
-  //   setFormData({...formData, rating: Number(target.value)});
-  // };
-
-  // const reviewTextChangeHandler = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
-  //   setFormData({...formData, reviewText: target.value});
-  // };
-
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
