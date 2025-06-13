@@ -1,22 +1,30 @@
 import { useEffect, useRef } from 'react';
 import { TOffers, TCity } from '../../types/offers';
-import { LEAFLET_DEFAULT_PIN, LEAFLET_ACTIVE_PIN } from './const';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
+import { LEAFLET_DEFAULT_PIN, LEAFLET_ACTIVE_PIN } from '../../const';
 
 type MapProps = {
-  city: TCity;
   offers: TOffers;
-  activeOfferId?: string | null;
+  city: TCity;
+  selectedPoint: string | null;
 }
 
-const defaultCustomIcon = leaflet.icon(LEAFLET_DEFAULT_PIN);
+const defaultCustomIcon = leaflet.icon({
+  iconUrl: LEAFLET_DEFAULT_PIN,
+  iconSize: [27, 40],
+  iconAnchor: [20, 40],
+});
 
-const currentCustomIcon = leaflet.icon(LEAFLET_ACTIVE_PIN);
+const currentCustomIcon = leaflet.icon({
+  iconUrl: LEAFLET_ACTIVE_PIN,
+  iconSize: [27, 40],
+  iconAnchor: [20, 40],
+});
 
-function Map({city, offers, activeOfferId}: MapProps) {
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const map = useMap({containerRef: mapContainerRef, location: city.location});
+function Map({city, offers, selectedPoint}: MapProps) {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const map = useMap({mapRef, city});
 
   useEffect(() => {
     if(map) {
@@ -26,14 +34,14 @@ function Map({city, offers, activeOfferId}: MapProps) {
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           },
-          {icon: offer.id === activeOfferId ? currentCustomIcon : defaultCustomIcon},
-        );
+          {icon: offer.id === selectedPoint ? currentCustomIcon : defaultCustomIcon},
+        ).addTo(map);
       });
     }
-  }, [map, activeOfferId, offers]);
+  }, [map, offers, selectedPoint]);
 
   return (
-    <section className="cities__map map" ref={mapContainerRef}></section>
+    <section className="cities__map map" ref={mapRef}></section>
   );
 }
 

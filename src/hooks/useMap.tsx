@@ -1,27 +1,26 @@
-import { useEffect, useState, useRef } from 'react';
-import { LEAFLET_TILE_LAYER, LEAFLET_TILE_ATTRIBUTION } from '../components/map/const';
-import leaflet from 'leaflet';
-import { TLocation } from '../types/offers';
-import { Map } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { useEffect, useState, useRef} from 'react';
+import { TCity } from '../types/offers';
+import leaflet, { Map as LeafletMap } from 'leaflet';
+import { LEAFLET_TILE_LAYER, LEAFLET_TILE_ATTRIBUTION } from '../const';
 
 type UseMapProps = {
-  location: TLocation;
-  containerRef: React.RefObject<HTMLElement | null>;
+  mapRef: React.RefObject<HTMLElement | null >;
+  city: TCity;
 }
 
-const useMap = ({containerRef, location}: UseMapProps) => {
-  const [map, setMap] = useState(null);
-  const isRenderedRef = useRef(false);
+function useMap({mapRef, city}: UseMapProps) {
+  const [map, setMap] = useState<LeafletMap | null>(null);
+  const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (containerRef.current !== null && !isRenderedRef.current) {
-
-      const instance = leaflet.map(containerRef.current, {
+    if (mapRef.current !== null && !isRenderedRef.current) {
+      const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: location.latitude,
-          lng: location.longitude,
+          lat: city.location.latitude,
+          lng: city.location.longitude
         },
-        zoom: location.zoom,
+        zoom: city.location.zoom
       });
 
       leaflet.tileLayer(LEAFLET_TILE_LAYER, {attribution: LEAFLET_TILE_ATTRIBUTION}).addTo(instance);
@@ -29,9 +28,10 @@ const useMap = ({containerRef, location}: UseMapProps) => {
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [containerRef, location]);
+  }, [mapRef, city]);
 
-  return map
-};
+  return map;
+}
+
 
 export default useMap;
