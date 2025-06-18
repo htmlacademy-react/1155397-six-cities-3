@@ -1,5 +1,7 @@
-import { TOffers } from '../../types/offers';
+import { TOffers, TCity } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type TMainPageProps = {
   offers: TOffers;
@@ -7,6 +9,18 @@ type TMainPageProps = {
 }
 
 function MainPage({offers, foundPlacesCount}: TMainPageProps) {
+  const city: TCity = {
+    name: 'Amsterdam',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 11
+    }
+  };
+
+  const [activeOffer, setactiveOffer] = useState<null | string>(null);
+  const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -99,11 +113,12 @@ function MainPage({offers, foundPlacesCount}: TMainPageProps) {
                 <PlacesList
                   offers={offers}
                   cardVariant={'primary'}
+                  onActiveOfferChange={activeOfferChangeHandler}
                 />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map offers={offers} city={city} selectedPoint={activeOffer} />
             </div>
           </div>
         </div>
