@@ -1,6 +1,5 @@
 import { TOffers } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
-import { useState } from 'react';
 
 type FavoritesProps = {
   offers: TOffers;
@@ -9,7 +8,6 @@ type FavoritesProps = {
 function Favorites({offers}: FavoritesProps) {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const cities = [...new Set(favoriteOffers.map(({ city }) => city.name))];
-  const [, setID] = useState<string | null>(null);
 
   return (
     <main className="page__main page__main--favorites">
@@ -30,10 +28,7 @@ function Favorites({offers}: FavoritesProps) {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      <PlacesList offers={offerOfCity} cardVariant={'favorite'} onActiveOfferChange={(id: string | null) => {
-                        setID(id);
-                      }}
-                      />
+                      <PlacesList offers={offerOfCity} cardVariant='favorite'/>
                     </div>
                   </li>
                 );
