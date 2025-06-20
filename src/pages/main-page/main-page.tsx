@@ -118,7 +118,7 @@ function MainPage({offers, foundPlacesCount}: TMainPageProps) {
               </div>
             </section>
             <div className="cities__right-section">
-              <Map offers={offers} city={city} selectedPoint={activeOffer} />
+              <Map className='cities__map' offers={offers} city={city} selectedPoint={activeOffer} />
             </div>
           </div>
         </div>

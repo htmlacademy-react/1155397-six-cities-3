@@ -7,19 +7,21 @@ import Favorites from '../../pages/favorites/favorites';
 import NotFound from '../../pages/not-found/not-found';
 import OfferPage from '../../pages/offer/offer';
 import { TOffers } from '../../types/offers';
+import { TReviews } from '../../types/reviews';
 
 type TAppProps = {
     offers: TOffers;
     foundPlacesCount: number;
+    reviews: TReviews;
 };
 
-function App({offers, foundPlacesCount}: TAppProps) {
+function App({offers, foundPlacesCount, reviews}: TAppProps) {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={RoutePath.Main} element={ <MainPage offers={offers} foundPlacesCount={foundPlacesCount} />} />
         <Route path={RoutePath.Login} element={ <Login /> } />
-        <Route path={`${RoutePath.Offer}/:offerId`} element={ <OfferPage offers={offers} /> } />
+        <Route path={`${RoutePath.Offer}/:offerId`} element={ <OfferPage offers={offers} reviews={reviews} /> } />
         <Route path={RoutePath.Favorites} element={
           <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
             <Favorites offers={offers} />
