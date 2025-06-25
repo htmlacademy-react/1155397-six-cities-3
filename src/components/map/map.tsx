@@ -47,7 +47,7 @@ function Map({city, offers, selectedPoint, className}: MapProps) {
   }, [map, offers, selectedPoint]);
 
   return (
-    <section className={`${className} map`} ref={mapRef}></section>
+    <section className={`${className} map`} ref={mapRef} />
   );
 }
 

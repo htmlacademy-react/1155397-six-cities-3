@@ -1,14 +1,14 @@
 import { TOffers, TOffer} from '../../types/offers';
-import { CardVariants } from '../../const';
+import { TPlaceCardVariant } from '../../const';
 import PlaceCard from '../place-card/place-card';
 
 type TPlaceListProps = {
   offers: TOffers;
-  cardVariant: Extract<keyof typeof CardVariants, 'primary'>;
+  cardVariant: Extract<keyof typeof TPlaceCardVariant, 'primary'>;
   onActiveOfferChange: (id: string | null) => void;
 } | {
   offers: TOffers;
-  cardVariant: Exclude<keyof typeof CardVariants, 'primary'>;
+  cardVariant: Exclude<keyof typeof TPlaceCardVariant, 'primary'>;
   onActiveOfferChange?: never;
 };
 

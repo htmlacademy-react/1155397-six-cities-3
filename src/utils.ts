@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
 import offers from './mocks/offers';
 import { TReviews } from './types/reviews';
-import { TOffer, TOffers } from './types/offers';
-
-const MAX_NEAR_OFFERS = 3;
+import { TOffer } from './types/offers';
 
 export const calculateStarRating = (rating: number) => `${ Math.round(rating) * 100 / 5}%`;
 
@@ -17,16 +15,6 @@ export const sortReviewsByDate = (reviews: TReviews | null) => {
 };
 
 export const getNearOffers = (offer: TOffer) => {
-  const nearOffers: TOffers = [];
-
-  for(let i = 0; i < offers.length; i++) {
-    if(offers[i].id !== offer.id && offers[i].city.name === offer.city.name) {
-      nearOffers.push(offers[i]);
-    }
-
-    if(nearOffers.length >= MAX_NEAR_OFFERS) {
-      break;
-    }
-  }
+  const nearOffers = offers.filter(({city}) => city.name === offer.city.name).slice(0, 3);
   return nearOffers;
 };

@@ -1,9 +1,10 @@
-import { CardVariants } from '../../const';
+import { useNavigate } from 'react-router-dom';
+import { TPlaceCardVariant, RoutePath } from '../../const';
 import { TOffer } from '../../types/offers';
 import { calculateStarRating } from '../../utils';
-import { Link } from 'react-router-dom';
+import { MouseEventHandler, useState } from 'react';
 
-type TPlaceCardVariant = keyof typeof CardVariants;
+type TPlaceCardVariant = keyof typeof TPlaceCardVariant;
 
 type PlaceCardProps = {
   offer: TOffer;
@@ -16,10 +17,12 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
-  const {id, title, type, price, isFavorite, isPremium, rating, images} = offer;
-  const {prefix, width, height} = CardVariants[variant];
-  const favoriteClass = isFavorite ? 'place-card__bookmark-button--active button' : '';
+  const {id, title, type, price, isPremium, rating, images} = offer;
+  const {prefix, width, height} = TPlaceCardVariant[variant];
   const [previewImage] = images;
+
+  const [isFavoriteOffer, setIsFavoriteOffer] = useState(false);
+  const navigate = useNavigate();
 
   const handleMouseEnter = onPlaceCardHoverChange && variant === 'primary'
     ? () => onPlaceCardHoverChange(id)
@@ -29,26 +32,37 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
     ? () => onPlaceCardHoverChange(null)
     : undefined;
 
+  const handleArticleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+    navigate(`${RoutePath.Offer}/${id}`);
+  };
+
+  const handleBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    setIsFavoriteOffer(!isFavoriteOffer);
+  };
+
+  const favoriteOffer = `place-card__bookmark-button button ${isFavoriteOffer ? 'place-card__bookmark-button--active' : ''}`;
+
   return (
     <article
       className={`${prefix}__card place-card`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleArticleClick}
     >
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
       <div className={`${prefix}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`/offer/${id}`}>
-          <img
-            className="place-card__image"
-            src={previewImage}
-            width={width}
-            height={height}
-            alt="Place image"
-          />
-        </Link>
+        <img
+          className="place-card__image"
+          src={previewImage}
+          width={width}
+          height={height}
+          alt="Place image"
+        />
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -56,7 +70,11 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${favoriteClass} button`} type="button">
+          <button
+            className={favoriteOffer}
+            type="button"
+            onClick={handleBookmark}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -75,6 +93,7 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
         <p className="place-card__type">{type}</p>
       </div>
     </article>
+
   );
 }
 
