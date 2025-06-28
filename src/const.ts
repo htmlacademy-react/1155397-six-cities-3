@@ -14,13 +14,14 @@ export enum RoutePath {
 
 export enum PlaceCardClassNamePrefix {
   Main = 'cities',
-  Favorites = 'favorites'
+  Favorites = 'favorites',
+  Near = 'near'
 }
 
-export const CardVariants = {
+export const TPlaceCardVariant = {
   primary: { prefix: 'cities', width: 260, height: 200 },
   favorite: { prefix: 'favorites', width: 150, height: 110 },
-  near: { prefix: 'near-places', width: 150, height: 110 }
+  near: { prefix: 'near-places', width: 260, height: 200 }
 };
 
 export const starRating = [

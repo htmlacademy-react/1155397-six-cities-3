@@ -3,11 +3,13 @@ import { TOffers, TCity } from '../../types/offers';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import { LEAFLET_DEFAULT_PIN, LEAFLET_ACTIVE_PIN } from '../../const';
+import { layerGroup } from 'leaflet';
 
 type MapProps = {
   offers: TOffers;
   city: TCity;
   selectedPoint: string | null;
+  className: string;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -22,12 +24,13 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-function Map({city, offers, selectedPoint}: MapProps) {
+function Map({city, offers, selectedPoint, className}: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap({mapRef, city});
 
   useEffect(() => {
     if(map) {
+      const markerLayer = layerGroup().addTo(map);
       offers.map((offer) => {
         leaflet.marker(
           {
@@ -35,13 +38,16 @@ function Map({city, offers, selectedPoint}: MapProps) {
             lng: offer.location.longitude,
           },
           {icon: offer.id === selectedPoint ? currentCustomIcon : defaultCustomIcon},
-        ).addTo(map);
+        ).addTo(markerLayer);
       });
+      return () => {
+        map.removeLayer(markerLayer);
+      };
     }
   }, [map, offers, selectedPoint]);
 
   return (
-    <section className="cities__map map" ref={mapRef}></section>
+    <section className={`${className} map`} ref={mapRef} />
   );
 }
 
