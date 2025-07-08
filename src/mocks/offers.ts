@@ -320,6 +320,38 @@ const offers: TOffers = [
     },
     images: [ 'img/apartment-01.jpg'],
     maxAdults: 1
+  },
+  {
+    id: '1adfasq1231-7777',
+    title: 'Place in Paris',
+    type: 'room',
+    price: 999,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.8536,
+        longitude: 2.3490,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.8521,
+      longitude: 2.3274,
+      zoom: 8
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 1,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    bedrooms: 1,
+    goods: [ 'Kitchen','Dishwasher' ],
+    host: {
+      name: 'Oliver Conner',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: false
+    },
+    images: [ 'img/apartment-01.jpg'],
+    maxAdults: 1
   }
 ];
 

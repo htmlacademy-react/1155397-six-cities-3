@@ -18,6 +18,15 @@ export enum PlaceCardClassNamePrefix {
   Near = 'near'
 }
 
+export const CITIES: string[] = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
 export const TPlaceCardVariant = {
   primary: { prefix: 'cities', width: 260, height: 200 },
   favorite: { prefix: 'favorites', width: 150, height: 110 },
