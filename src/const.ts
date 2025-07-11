@@ -20,15 +20,6 @@ export enum PlaceCardClassNamePrefix {
   Near = 'near'
 }
 
-// export const CITIES: string[] = [
-//   'Paris',
-//   'Cologne',
-//   'Brussels',
-//   'Amsterdam',
-//   'Hamburg',
-//   'Dusseldorf',
-// ];
-
 export const CITIES: TCities = [
   {
     name: 'Amsterdam',
