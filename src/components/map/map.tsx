@@ -3,11 +3,11 @@ import { TOffers, TCity } from '../../types/offers';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import { LEAFLET_DEFAULT_PIN, LEAFLET_ACTIVE_PIN } from '../../const';
-import { layerGroup } from 'leaflet';
+import { layerGroup, LayerGroup } from 'leaflet';
 
 type MapProps = {
-  offers: TOffers;
   city: TCity;
+  offers: TOffers;
   selectedPoint: string | null;
   className: string;
 }
@@ -27,10 +27,22 @@ const currentCustomIcon = leaflet.icon({
 function Map({city, offers, selectedPoint, className}: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap({mapRef, city});
+  const markerLayer = useRef<LayerGroup>(layerGroup());
+
+  useEffect(()=>{
+    if(map){
+      map.setView({
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      }, city.location.zoom);
+      markerLayer.current.addTo(map);
+      markerLayer.current.clearLayers();
+    }
+  },[city, map]);
+
 
   useEffect(() => {
     if(map) {
-      const markerLayer = layerGroup().addTo(map);
       offers.map((offer) => {
         leaflet.marker(
           {
@@ -38,11 +50,8 @@ function Map({city, offers, selectedPoint, className}: MapProps) {
             lng: offer.location.longitude,
           },
           {icon: offer.id === selectedPoint ? currentCustomIcon : defaultCustomIcon},
-        ).addTo(markerLayer);
+        ).addTo(markerLayer.current);
       });
-      return () => {
-        map.removeLayer(markerLayer);
-      };
     }
   }, [map, offers, selectedPoint]);
 

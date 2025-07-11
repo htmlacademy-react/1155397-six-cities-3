@@ -6,17 +6,18 @@ import PlacesList from '../../components/places-list/places-list';
 import { TOffers } from '../../types/offers';
 import { useParams } from 'react-router-dom';
 import { calculateStarRating } from '../../utils';
-import { TReviews } from '../../types/reviews';
+
 import { getNearOffers } from '../../utils';
+import { useAppSelector } from '../../store/hooks';
 
 type OfferPageProps = {
   offers: TOffers;
-  reviews: TReviews;
 }
 
-function OfferPage({offers, reviews}: OfferPageProps) {
-  const { offerId } = useParams();
-  const currentOffer = offers.find((offer) => offer.id === offerId);
+function OfferPage({offers}: OfferPageProps) {
+  const { id } = useParams();
+  const reviews = useAppSelector((state)=> state.reviews);
+  const currentOffer = offers.find((offer) => offer.id === id);
   const isFavorite = currentOffer?.isFavorite ? 'offer__bookmark-button--active' : '';
 
   if(!currentOffer) {

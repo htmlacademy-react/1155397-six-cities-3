@@ -1,11 +1,9 @@
-import { TOffers } from '../../types/offers';
+// import { TOffers } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
+import { useAppSelector } from '../../store/hooks';
 
-type FavoritesProps = {
-  offers: TOffers;
-};
-
-function Favorites({offers}: FavoritesProps) {
+function Favorites() {
+  const offers = useAppSelector((state)=> state.offers);
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const cities = [...new Set(favoriteOffers.map(({ city }) => city.name))];
 

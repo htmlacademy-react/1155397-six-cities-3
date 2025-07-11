@@ -40,3 +40,4 @@ export type TMapPin = {
 }
 
 export type TOffers = TOffer[];
+export type TCities = TCity[];
