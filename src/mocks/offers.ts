@@ -19,7 +19,7 @@ const offers: TOffers = [
       longitude: 4.85309666406198,
       zoom: 8
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: true,
     rating: 1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -51,7 +51,7 @@ const offers: TOffers = [
       longitude: 4.85309666406198,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 2,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -115,7 +115,7 @@ const offers: TOffers = [
       longitude: 4.939309666406198,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: false,
     rating: 4,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -147,7 +147,7 @@ const offers: TOffers = [
       longitude: 4.8882,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 5,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -179,7 +179,7 @@ const offers: TOffers = [
       longitude: 4.8663,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -211,7 +211,7 @@ const offers: TOffers = [
       longitude: 4.8896,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -243,7 +243,7 @@ const offers: TOffers = [
       longitude: 4.9281,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -275,7 +275,7 @@ const offers: TOffers = [
       longitude: 4.9480,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -307,7 +307,7 @@ const offers: TOffers = [
       longitude: 4.89389,
       zoom: 8
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',

@@ -1,25 +1,22 @@
-import { TOffers, TCity } from '../../types/offers';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
-import ListCities from '../../components/cities-list/cities-list';
+import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../store/hooks';
 import Sorting from '../../components/sorting/sorting';
+import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
 
-type TMainPageProps = {
-  defaultCity: TCity;
-  offers: TOffers;
-}
 
-function MainPage({defaultCity, offers}: TMainPageProps) {
-  const checkedCityName = useAppSelector((state) => state.selectedCity);
-  const city = offers.find((item)=> item.city?.name === checkedCityName)?.city;
+function MainPage() {
+  const offers = useAppSelector((state)=> state.offers);
+  const selectedCity = useAppSelector((state) => state.city);
+  const currentOffers = offers.filter((offer)=> offer.city.name === selectedCity.name);
 
   const [activeOffer, setactiveOffer] = useState<null | string>(null);
   const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
 
-  const emptyPageClass = offers.length === 0 ? 'page__main--index-empty' : '';
-  const emptyContainerClass = offers.length === 0 ? 'cities__places-container--empty' : '';
+  const emptyPageClass = currentOffers.length === 0 ? 'page__main--index-empty' : '';
+  const emptyContainerClass = currentOffers.length === 0 ? 'cities__places-container--empty' : '';
 
   return (
     <div className="page page--gray page--main">
@@ -56,38 +53,30 @@ function MainPage({defaultCity, offers}: TMainPageProps) {
 
         <div className="tabs">
           <section className="locations container">
-            <ListCities selectedCity={checkedCityName} />
+            <CitiesList />
           </section>
         </div>
 
         <div className="cities">
           <div className={`cities__places-container ${emptyContainerClass} container`}>
-            { offers.length !== 0 ? (
+            { currentOffers.length > 0 ? (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{currentOffers.length} places to stay in Amsterdam</b>
                 <Sorting />
                 <PlacesList
-                  offers={offers}
+                  offers={currentOffers}
                   cardVariant={'primary'}
                   onActiveOfferChange={activeOfferChangeHandler}
                 />
               </section>
             ) : (
-              <section className="cities__no-places">
-                <div className="cities__status-wrapper tabs__content">
-                  <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
-                </div>
-              </section>
+              <EmptyPlacesList />
             )}
 
             <div className="cities__right-section">
-              { offers.length !== 0 ? (
-                <Map className='cities__map' offers={offers} city={city || defaultCity} selectedPoint={activeOffer} />
-              ) : (
-                ''
-              )}
+              { currentOffers.length > 0 &&
+                <Map className='cities__map' offers={currentOffers} city={selectedCity} selectedPoint={activeOffer} />}
             </div>
           </div>
         </div>
