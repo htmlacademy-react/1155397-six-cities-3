@@ -5,12 +5,14 @@ import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../store/hooks';
 import Sorting from '../../components/sorting/sorting';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
-
+import { sortDictionary } from '../../utils';
 
 function MainPage() {
   const offers = useAppSelector((state)=> state.offers);
   const selectedCity = useAppSelector((state) => state.city);
   const currentOffers = offers.filter((offer)=> offer.city.name === selectedCity.name);
+  const currentSort = useAppSelector((state) => state.sort);
+  currentOffers.sort(sortDictionary[currentSort].handler);
 
   const [activeOffer, setactiveOffer] = useState<null | string>(null);
   const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
