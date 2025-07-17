@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { sortOffers } from '../../store/action';
-import { sortKeys, sortDictionary } from '../../utils';
+import { SortDictionary } from '../../utils';
+import { TSortNames } from '../../types/sort';
 
 function Sorting() {
   const [isOpen, setIsOpen] = useState(false);
   const currentSort = useAppSelector((state) => state.sort);
   const dispatch = useAppDispatch();
+  const sortKeys = Object.keys(SortDictionary) as TSortNames[];
 
   const handleToggleSortPopup = () => {
     setIsOpen(!isOpen);
@@ -25,12 +27,15 @@ function Sorting() {
         {
           sortKeys.map((key) => (
             <li
-              className="places__option"
+              className={`places__option ${currentSort === key ? 'places__option--active' : ''}`}
               tabIndex={0}
               key={key}
-              onClick={() => dispatch(sortOffers(key))}
+              onClick={() => {
+                dispatch(sortOffers(key));
+                handleToggleSortPopup();
+              }}
             >
-              {sortDictionary[key].name}
+              {key}
             </li>
           ))
         }

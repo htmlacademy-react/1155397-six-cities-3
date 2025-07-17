@@ -6,3 +6,9 @@ export type TSortDictItem = {
     name: TSortNames;
     handler: (a:TOffer, b:TOffer) => number;
 };
+
+
+export type TSortDictionary =
+Record<Exclude<TSortNames, 'Popular'>, (a:TOffer, b:TOffer) => number>
+&
+Record<Extract<TSortNames, 'Popular'>, null>;
