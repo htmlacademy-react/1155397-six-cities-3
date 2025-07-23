@@ -7,6 +7,9 @@ import NotFound from '../../pages/not-found/not-found';
 import OfferPage from '../../pages/offer/offer';
 import { useAppSelector } from '../../store/hooks';
 import { AuthorizationStatus, RoutePath } from '../../const';
+import { fetchOffers } from '../../store/api-action';
+import { store } from '../../store';
+store.dispatch(fetchOffers());
 
 function App() {
   const offers = useAppSelector((state)=> state.offers);

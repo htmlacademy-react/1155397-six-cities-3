@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, updateOffers, sortOffers } from './action';
+import { selectCity, updateOffers, sortOffers, loadOffers } from './action';
 import { TOffers, TCity } from '../types/offers';
-import offers from '../mocks/offers';
+// import offers from '../mocks/offers'
 import reviews from '../mocks/reviews';
 import { CITIES } from '../const';
 import { TReviews } from '../types/reviews';
@@ -16,13 +16,16 @@ type TinitialState = {
 
 export const initialState: TinitialState = {
   city: CITIES[0],
-  offers,
+  offers: [],
   reviews,
   sort: 'Popular',
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
     .addCase(selectCity, (state, action) => {
       state.city = action.payload;
     })

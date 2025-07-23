@@ -17,9 +17,8 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
-  const {id, title, type, price, isPremium, rating, images} = offer;
+  const {id, title, type, price, isPremium, rating, previewImage} = offer;
   const {prefix, width, height} = TPlaceCardVariant[variant];
-  const [previewImage] = images;
 
   const [isFavoriteOffer, setIsFavoriteOffer] = useState(false);
   const navigate = useNavigate();
