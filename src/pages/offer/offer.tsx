@@ -6,8 +6,6 @@ import PlacesList from '../../components/places-list/places-list';
 import { TOffers } from '../../types/offers';
 import { useParams } from 'react-router-dom';
 import { calculateStarRating } from '../../utils';
-
-import { getNearOffers } from '../../utils';
 import { useAppSelector } from '../../store/hooks';
 
 type OfferPageProps = {
@@ -25,8 +23,6 @@ function OfferPage({offers}: OfferPageProps) {
   }
 
   const offerPage = {...offers, ...currentOffer};
-  const nearOffers = getNearOffers(offerPage);
-  const nearOffersPlusCurrent = [offerPage, ...nearOffers];
 
   return(
     <div className="page">
@@ -156,13 +152,13 @@ function OfferPage({offers}: OfferPageProps) {
               </section>
             </div>
           </div>
-          <Map className="offer__map" offers={nearOffersPlusCurrent} city={offerPage.city} selectedPoint={offerPage.id}/>
+          <Map className="offer__map" offers={offers} city={offerPage.city} selectedPoint={offerPage.id}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <PlacesList offers={nearOffers} cardVariant='near'/>
+              <PlacesList offers={offers} cardVariant='near'/>
             </div>
           </section>
         </div>

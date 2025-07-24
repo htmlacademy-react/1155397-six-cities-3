@@ -7,9 +7,24 @@ import NotFound from '../../pages/not-found/not-found';
 import OfferPage from '../../pages/offer/offer';
 import { useAppSelector } from '../../store/hooks';
 import { AuthorizationStatus, RoutePath } from '../../const';
+import { fetchOffers } from '../../store/api-action';
+import { store } from '../../store';
+import Loader from '../loader/loader';
+import { HelmetProvider } from 'react-helmet-async';
+
+store.dispatch(fetchOffers());
 
 function App() {
-  const offers = useAppSelector((state)=> state.offers);
+  const offers = useAppSelector((state) => state.offers);
+  const isLoading = useAppSelector((state) => state.isLoading);
+
+  if(isLoading) {
+    return (
+      <HelmetProvider>
+        <Loader/>
+      </HelmetProvider>
+    );
+  }
 
   return (
     <BrowserRouter>
