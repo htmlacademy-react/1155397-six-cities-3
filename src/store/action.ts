@@ -6,3 +6,4 @@ export const selectCity = createAction<TCity>('selectCity');
 export const updateOffers = createAction<TOffers>('updateOffers');
 export const sortOffers = createAction<TSortNames>('sortOffers');
 export const loadOffers = createAction<TOffers>('data/loadOffers');
+export const loadingApp = createAction('loadingApp');
