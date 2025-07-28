@@ -1,4 +1,5 @@
 import { TCities } from './types/offers';
+import { StatusCodes } from 'http-status-codes';
 
 export enum AuthorizationStatus{
     Auth = 'AUTH',
@@ -99,3 +100,10 @@ export const LEAFLET_ACTIVE_PIN = 'img/pin-active.svg';
 export enum APIRoute {
   Offers = '/offers',
 }
+
+export const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true
+};
+

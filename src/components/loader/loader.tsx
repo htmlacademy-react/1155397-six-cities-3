@@ -6,14 +6,7 @@ function Loader() {
       <Helmet>
         <link rel="stylesheet" href="css/loader.css" />
       </Helmet>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div className="spinner"></div>
     </div>
   );
 }

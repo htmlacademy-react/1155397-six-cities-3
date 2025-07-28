@@ -17,7 +17,7 @@ function Sorting() {
     dispatch(sortOffers(key));
   };
 
-  const combinebSortingHandler = (key: TSortNames) => {
+  const getSortingHandler = (key: TSortNames) => () => {
     handleToggleSortPopup();
     handleSelectSortClick(key);
   };
@@ -38,7 +38,7 @@ function Sorting() {
               className={`places__option ${currentSort === key ? 'places__option--active' : ''}`}
               tabIndex={0}
               key={key}
-              onClick={() => combinebSortingHandler(key)}
+              onClick={getSortingHandler(key)}
             >
               {key}
             </li>
