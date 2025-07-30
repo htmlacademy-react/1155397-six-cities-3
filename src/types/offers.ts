@@ -26,7 +26,7 @@ export type TOffer = {
     description: string;
     bedrooms: number;
     goods: string[];
-    images: string[];
+    previewImage: string;
     maxAdults: number;
     location: TLocation;
     city: TCity;

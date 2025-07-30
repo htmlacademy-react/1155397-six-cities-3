@@ -17,6 +17,11 @@ function Sorting() {
     dispatch(sortOffers(key));
   };
 
+  const getSortingHandler = (key: TSortNames) => () => {
+    handleToggleSortPopup();
+    handleSelectSortClick(key);
+  };
+
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by  </span>
@@ -33,10 +38,7 @@ function Sorting() {
               className={`places__option ${currentSort === key ? 'places__option--active' : ''}`}
               tabIndex={0}
               key={key}
-              onClick={() => {
-                handleSelectSortClick(key);
-                handleToggleSortPopup();
-              }}
+              onClick={getSortingHandler(key)}
             >
               {key}
             </li>
