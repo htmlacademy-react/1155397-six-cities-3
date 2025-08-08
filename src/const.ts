@@ -1,7 +1,9 @@
 import { TCities } from './types/offers';
 import { StatusCodes } from 'http-status-codes';
 
-export enum AuthorizationStatus{
+export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+
+export enum AuthorizationStatus {
     Auth = 'AUTH',
     NoAuth = 'NO_AUTH',
     Unknown = 'UNKNOWN',
@@ -99,6 +101,8 @@ export const LEAFLET_ACTIVE_PIN = 'img/pin-active.svg';
 
 export enum APIRoute {
   Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export const StatusCodeMapping: Record<number, boolean> = {
