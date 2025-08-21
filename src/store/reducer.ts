@@ -1,24 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, updateOffers, sortOffers, loadOffers, loadingApp, updateAuthorization } from './action';
+import { selectCity, updateOffers, sortOffers, getOffers, loadingApp, updateAuthorization } from './action';
 import { TOffers, TCity } from '../types/offers';
-import reviews from '../mocks/reviews';
 import { AuthorizationStatus, CITIES } from '../const';
-import { TReviews } from '../types/reviews';
-import { TSortNames } from '../types/sort';
+import { TSortBy } from '../types/sort';
 
 type TinitialState = {
     city: TCity;
-    offers: TOffers;
-    reviews: TReviews;
-    sort: TSortNames;
+    offers: TOffers | null;
+    sort: TSortBy;
     isLoading: boolean;
     authorizationStatus: AuthorizationStatus;
 }
 
 export const initialState: TinitialState = {
-  city: CITIES[0],
-  offers: [],
-  reviews,
+  city: CITIES[1],
+  offers: null,
   sort: 'Popular',
   isLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -32,7 +28,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(updateAuthorization, (state, action) => {
       state.authorizationStatus = action.payload.authorizationStatus;
     })
-    .addCase(loadOffers, (state, action) => {
+    .addCase(getOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(selectCity, (state, action) => {

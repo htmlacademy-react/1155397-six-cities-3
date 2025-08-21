@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { TOffers, TCity } from '../../types/offers';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
+import { useEffect, useRef } from 'react';
+import { TOffers, TCity } from '../../types/offers';
 import { LEAFLET_DEFAULT_PIN, LEAFLET_ACTIVE_PIN } from '../../const';
 import { layerGroup, LayerGroup } from 'leaflet';
 

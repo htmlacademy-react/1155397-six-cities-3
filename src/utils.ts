@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { TReviews } from './types/reviews';
-import { TSortDictionary, TSortNames } from './types/sort';
+import { TSortDictionary, TSortBy } from './types/sort';
 
 export const calculateStarRating = (rating: number) => `${Math.round(rating) * 100 / 5}%`;
 
@@ -20,4 +20,4 @@ export const SortDictionary: TSortDictionary = {
   'Top rated first': (a, b) => b.rating - a.rating,
 };
 
-export const SortKeys = Object.keys(SortDictionary) as TSortNames[];
+export const SortKeys = Object.keys(SortDictionary) as TSortBy[];

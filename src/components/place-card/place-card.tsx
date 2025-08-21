@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { TPlaceCardVariant, RoutePath } from '../../const';
+import { TPlaceCardVariant, AppRoute } from '../../const';
 import { TOffer } from '../../types/offers';
 import { calculateStarRating } from '../../utils';
 import { MouseEventHandler, useState } from 'react';
@@ -33,7 +33,7 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
 
   const handleArticleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
-    navigate(`${RoutePath.Offer}/${id}`);
+    navigate(`${AppRoute.Offer}/${id}`);
   };
 
   const handleBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {

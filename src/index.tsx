@@ -5,9 +5,6 @@ import { store } from './store';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { checkAuthorization } from './store/api-action';
-
-store.dispatch(checkAuthorization());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -1,6 +1,6 @@
+import React from 'react';
 import { ChangeEventHandler, useState } from 'react';
 import { starRating } from '../../const';
-import React from 'react';
 
 function ReviewForm() {
   const [formData, setFormData] = useState({

@@ -9,12 +9,18 @@ export enum AuthorizationStatus {
     Unknown = 'UNKNOWN',
 }
 
-export enum RoutePath {
+export enum AppRoute {
   Main = '/',
   NotFound = '*',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
+}
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum PlaceCardClassNamePrefix {
@@ -98,12 +104,6 @@ export const LEAFLET_TILE_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles
 export const LEAFLET_TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 export const LEAFLET_DEFAULT_PIN = 'img/pin.svg';
 export const LEAFLET_ACTIVE_PIN = 'img/pin-active.svg';
-
-export enum APIRoute {
-  Offers = '/offers',
-  Login = '/login',
-  Logout = '/logout',
-}
 
 export const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,

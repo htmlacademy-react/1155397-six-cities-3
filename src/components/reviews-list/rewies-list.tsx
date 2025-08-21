@@ -1,5 +1,5 @@
-import { TReviews } from '../../types/reviews';
 import Review from '../review/review';
+import { TReviews } from '../../types/reviews';
 
 type ReviewsListProps = {
   reviews: TReviews;

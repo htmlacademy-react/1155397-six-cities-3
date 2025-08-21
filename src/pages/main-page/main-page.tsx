@@ -1,10 +1,11 @@
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
-import { useState } from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
-import { useAppSelector } from '../../store/hooks';
 import Sorting from '../../components/sorting/sorting';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
+import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+import { useAppSelector } from '../../store/hooks';
 import { SortDictionary } from '../../utils';
 import { TOffers } from '../../types/offers';
 
@@ -24,6 +25,9 @@ function MainPage() {
 
   return (
     <main className={`page__main ${emptyPageClass} page__main--index`}>
+      <Helmet>
+        <title>6 cities</title>
+      </Helmet>
       <h1 className="visually-hidden">Cities</h1>
 
       <div className="tabs">

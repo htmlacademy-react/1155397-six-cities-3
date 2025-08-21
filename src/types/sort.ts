@@ -1,14 +1,14 @@
 import { TOffer } from './offers';
 
-export type TSortNames = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
+export type TSortBy = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
 
 export type TSortDictItem = {
-    name: TSortNames;
+    name: TSortBy;
     handler: (a:TOffer, b:TOffer) => number;
 };
 
 
 export type TSortDictionary =
-Record<Exclude<TSortNames, 'Popular'>, (a:TOffer, b:TOffer) => number>
+Record<Exclude<TSortBy, 'Popular'>, (a:TOffer, b:TOffer) => number>
 &
-Record<Extract<TSortNames, 'Popular'>, null>;
+Record<Extract<TSortBy, 'Popular'>, null>;
