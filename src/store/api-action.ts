@@ -1,9 +1,9 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
-import { getOffers, loadingApp, redirectToRoute, updateAuthorization } from './action';
+import { initializeOffers, updateOffers, loadingApp, redirectToRoute, updateAuthorization, setCurrentOffer } from './action';
 import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
-import { TOffers } from '../types/offers';
+import { TOffers, TDetailOffer } from '../types/offers';
 import { TAuth, TUser } from '../types/auth';
 import { removeToken, saveToken } from '../services/token';
 
@@ -12,11 +12,12 @@ export const uploadOffers = createAsyncThunk<void, undefined, {
     state: State;
     extra: AxiosInstance;
 }>(
-  'getOffers',
+  'uploadOffers',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(loadingApp());
     const {data} = await api.get<TOffers>(APIRoute.Offers);
-    dispatch(getOffers(data));
+    dispatch(initializeOffers({offers: data}));
+    dispatch(updateOffers());
     dispatch(loadingApp());
   }
 );
@@ -67,3 +68,18 @@ export const logoutUser = createAsyncThunk<void, undefined, {
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
   }
 );
+export const uploadOfferById = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'uploadOfferInfoById',
+  async (offerId, { dispatch, extra: api}) => {
+    try {
+      const { data } = await api.get<TDetailOffer>(`${APIRoute.Offers}/${offerId}`);
+      dispatch(setCurrentOffer(data));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+
+  });

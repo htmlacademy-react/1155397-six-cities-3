@@ -3,25 +3,23 @@ import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import Sorting from '../../components/sorting/sorting';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
+import Loader from '../../components/loader/loader';
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
-import { SortDictionary } from '../../utils';
-import { TOffers } from '../../types/offers';
 
 function MainPage() {
   const offers = useAppSelector((state)=> state.offers);
-  const selectedCity = useAppSelector((state) => state.city);
-  const currentOffers = offers.filter((offer)=> offer.city.name === selectedCity.name);
-  const currentSort = useAppSelector((state) => state.sort);
-
-  const sortedoffers: TOffers = currentSort === 'Popular' ? currentOffers : currentOffers.slice().sort(SortDictionary[currentSort]);
+  const currentCity = useAppSelector((state) => state.city);
 
   const [activeOffer, setactiveOffer] = useState<null | string>(null);
   const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
+  const emptyPageClass = offers.length === 0 ? 'page__main--index-empty' : '';
+  const emptyContainerClass = offers.length === 0 ? 'cities__places-container--empty' : '';
 
-  const emptyPageClass = currentOffers.length === 0 ? 'page__main--index-empty' : '';
-  const emptyContainerClass = currentOffers.length === 0 ? 'cities__places-container--empty' : '';
+  if (!offers) {
+    return <Loader />;
+  }
 
   return (
     <main className={`page__main ${emptyPageClass} page__main--index`}>
@@ -29,43 +27,34 @@ function MainPage() {
         <title>6 cities</title>
       </Helmet>
       <h1 className="visually-hidden">Cities</h1>
-
       <div className="tabs">
-        <section className="locations container">
-          <CitiesList />
-        </section>
+        <CitiesList />
       </div>
-
+      {offers.length === 0 && <EmptyPlacesList city={currentCity} />}
+      {offers.length &&
       <div className="cities">
         <div className={`cities__places-container ${emptyContainerClass} container`}>
-          { sortedoffers.length > 0 ? (
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in Amsterdam</b>
-              <Sorting />
-              <PlacesList
-                offers={sortedoffers}
-                cardVariant={'primary'}
-                onActiveOfferChange={activeOfferChangeHandler}
-              />
-            </section>
-          ) : (
-            <EmptyPlacesList />
-          )}
-
+          <section className="cities__places places">
+            <h2 className="visually-hidden">Places</h2>
+            <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+            <Sorting />
+            <PlacesList
+              offers={offers}
+              cardVariant={'primary'}
+              onActiveOfferChange={activeOfferChangeHandler}
+            />
+          </section>
           <div className="cities__right-section">
-            {
-              currentOffers.length > 0 &&
-                <Map
-                  className='cities__map'
-                  offers={currentOffers}
-                  city={selectedCity}
-                  selectedPoint={activeOffer}
-                />
-            }
+            <Map
+              className='cities__map'
+              offers={offers}
+              city={currentCity}
+              selectedPoint={activeOffer}
+            />
+
           </div>
         </div>
-      </div>
+      </div>}
     </main>
   );
 }

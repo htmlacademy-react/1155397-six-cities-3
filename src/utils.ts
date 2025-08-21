@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { TReviews } from './types/reviews';
 import { TSortDictionary, TSortBy } from './types/sort';
+import { TOffers } from './types/offers';
 
 export const calculateStarRating = (rating: number) => `${Math.round(rating) * 100 / 5}%`;
 
@@ -21,3 +22,9 @@ export const SortDictionary: TSortDictionary = {
 };
 
 export const SortKeys = Object.keys(SortDictionary) as TSortBy[];
+
+export const sortAndFilterOffers = (city: string, initialOffers: TOffers) => {
+  const offers = [...initialOffers].filter((offer) => offer.city.name === city);
+
+  return offers;
+};
