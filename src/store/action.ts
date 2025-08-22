@@ -7,7 +7,7 @@ import { TReviews } from '../types/reviews';
 export const loadingApp = createAction('loadingApp');
 export const updateOffers = createAction('uploadOffers');
 export const initializeOffers = createAction<{offers: TOffers}>('initializeOffers');
-export const selectCity = createAction<{city: TCity}>('selectCity');
+export const selectCity = createAction<TCity>('selectCity');
 export const sortOffers = createAction<TSortBy>('sortOffers');
 export const updateAuthorization = createAction<{authorizationStatus: AuthorizationStatus}>('authorizationStatus');
 export const redirectToRoute = createAction<AppRoute>('redirectToRoute');

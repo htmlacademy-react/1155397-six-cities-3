@@ -1,6 +1,25 @@
 import { Helmet } from 'react-helmet-async';
+import { useAppSelector } from '../../store/hooks';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { store } from '../../store';
+import { uploadOfferById } from '../../store/api-action';
+import Loader from '../../components/loader/loader';
 
 function OfferPage() {
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const { offerId } = useParams();
+
+  useEffect(() => {
+    if(offerId && currentOffer?.id !== offerId) {
+      store.dispatch(uploadOfferById(offerId));
+    }
+  }, [offerId, currentOffer]);
+
+  if(!currentOffer || currentOffer.id !== offerId) {
+    <Loader/>;
+  }
+
   return(
     <main className="page__main page__main--offer">
       <Helmet>

@@ -1,16 +1,18 @@
 import { CITIES } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateOffers, selectCity } from '../../store/action';
+import { TCity } from '../../types/offers';
 import classNames from 'classnames';
 
 function CitiesList() {
   const currentCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
 
-  // Получаем строку при клике , но везде используется объект
   const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
     const cityTarget = currentTarget.dataset.city;
-    dispatch(selectCity({cityTarget}));
+    const selectedCity: Omit<TCity, 'location'> = {};
+    selectedCity.name = cityTarget;
+    dispatch(selectCity(cityTarget));
     dispatch(updateOffers());
   };
 

@@ -33,7 +33,7 @@ export const initialState: TinitialState = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(selectCity, (state, action) => {
-      state.city = action.payload.city;
+      state.city = action.payload;
     })
     .addCase(updateOffers, (state) => {
       if (state.initialOffers) {
