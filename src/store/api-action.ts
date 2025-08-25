@@ -1,12 +1,22 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
-import { initializeOffers, loadingApp, redirectToRoute, updateAuthorization, setCurrentOffer, setReviews } from './action';
+import {
+  initializeOffers,
+  loadingApp,
+  redirectToRoute,
+  updateAuthorization,
+  setCurrentOffer,
+  setReviews,
+  setNearbyOffers
+} from './action';
 import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
-import { TOffers, TDetailOffer } from '../types/offers';
+import { TOffers, TDetailOffer, TOffer } from '../types/offers';
 import { TReviews, TReview } from '../types/reviews';
 import { TAuth, TUser } from '../types/auth';
 import { removeToken, saveToken } from '../services/token';
+import { getRandomSubArray } from '../utils';
+import { NearbyOffersCount } from '../const';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
     dispatch: AppDispatch;
@@ -68,6 +78,7 @@ export const logoutUser = createAsyncThunk<void, undefined, {
     dispatch(updateAuthorization({authorizationStatus: AuthorizationStatus.NoAuth}));
   }
 );
+
 export const fetchOfferById = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
@@ -94,21 +105,6 @@ export const fetchReviews = createAsyncThunk<void, string, {
       dispatch(setReviews(data));
     });
 
-// export const fetchNewReview = createAsyncThunk<void, { offerId: string; comment: string; rating: number; cb: () => void }, {
-//   dispatch: AppDispatch;
-//   state: State;
-//   extra: AxiosInstance;
-// }>('loginUser',
-//   async ({ offerId, comment, rating, cb }, {dispatch, extra: api}) => {
-//     try {
-//       const { data } = await api.post<TReview>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
-//       dispatch(addNewReview(data));
-//       cb();
-//     } catch {
-//       cb();
-//     }
-//   });
-
 export const fetchNewReview = createAsyncThunk<TReview | undefined, {
   offerId: string;
   comment: string;
@@ -126,3 +122,14 @@ export const fetchNewReview = createAsyncThunk<TReview | undefined, {
         disableForm(false);
       }
     });
+
+export const fetchNearbyOffers = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchOfferById',
+  async (offerId, { dispatch, extra: api}) => {
+    const { data } = await api.get<TOffers>(`${APIRoute.Offers}/${offerId}/nearby`);
+    dispatch(setNearbyOffers(getRandomSubArray<TOffer>(data, NearbyOffersCount)));
+  });

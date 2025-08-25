@@ -5,6 +5,7 @@ import { selectCity,
   updateAuthorization,
   initializeOffers,
   setCurrentOffer,
+  setNearbyOffers,
   setReviews,
   addNewReview } from './action';
 import { TCity, TDetailOffer, TOffers } from '../types/offers';
@@ -53,6 +54,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentOffer, (state,action) => {
       state.currentOffer = action.payload;
+    })
+    .addCase(setNearbyOffers, (state, action) => {
+      state.nearByOffers = action.payload;
     })
     .addCase(setReviews, (state,action) => {
       state.reviews = action.payload;
