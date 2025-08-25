@@ -11,11 +11,12 @@ import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../../store/hooks';
 import { AppRoute } from '../../const';
-import { uploadOffers, checkAuthorization } from '../../store/api-action';
+import { fetchOffers, checkAuthorization } from '../../store/api-action';
 import { store } from '../../store';
+import OfferPage from '../../pages/offer/offer';
 
 store.dispatch(checkAuthorization());
-store.dispatch(uploadOffers());
+store.dispatch(fetchOffers());
 
 function App() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -42,6 +43,7 @@ function App() {
               </PrivateRoute>
             }
             />
+            <Route path={`${AppRoute.Offer}/:offerId`} element={ <OfferPage /> } />
           </Route>
           <Route path={AppRoute.NotFound} element={ <NotFound /> }></Route>
         </Routes>

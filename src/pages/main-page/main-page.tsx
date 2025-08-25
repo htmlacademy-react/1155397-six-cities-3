@@ -11,6 +11,7 @@ import { useAppSelector } from '../../store/hooks';
 function MainPage() {
   const offers = useAppSelector((state)=> state.offers);
   const currentCity = useAppSelector((state) => state.city);
+  const currentOffers = offers.filter(({city}) => city.name === currentCity.name);
 
   const [activeOffer, setactiveOffer] = useState<null | string>(null);
   const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
@@ -30,16 +31,16 @@ function MainPage() {
       <div className="tabs">
         <CitiesList />
       </div>
-      {offers.length === 0 && <EmptyPlacesList city={currentCity} />}
-      {offers.length &&
+      {currentOffers.length === 0 && <EmptyPlacesList city={currentCity} />}
+      {currentOffers.length &&
       <div className="cities">
         <div className={`cities__places-container ${emptyContainerClass} container`}>
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+            <b className="places__found">{currentOffers.length} places to stay in {currentCity.name}</b>
             <Sorting />
             <PlacesList
-              offers={offers}
+              offers={currentOffers}
               cardVariant={'primary'}
               onActiveOfferChange={activeOfferChangeHandler}
             />
@@ -47,7 +48,7 @@ function MainPage() {
           <div className="cities__right-section">
             <Map
               className='cities__map'
-              offers={offers}
+              offers={currentOffers}
               city={currentCity}
               selectedPoint={activeOffer}
             />

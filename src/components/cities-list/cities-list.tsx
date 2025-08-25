@@ -1,6 +1,6 @@
 import { CITIES } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { updateOffers, selectCity } from '../../store/action';
+import { selectCity } from '../../store/action';
 import { TCity } from '../../types/offers';
 import classNames from 'classnames';
 
@@ -8,12 +8,8 @@ function CitiesList() {
   const currentCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
 
-  const cityTabClickHandler = ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
-    const cityTarget = currentTarget.dataset.city;
-    const selectedCity: Omit<TCity, 'location'> = {};
-    selectedCity.name = cityTarget;
-    dispatch(selectCity(cityTarget));
-    dispatch(updateOffers());
+  const getCityClickHandler = (city: TCity) => () => {
+    dispatch(selectCity(city));
   };
 
   return (
@@ -22,11 +18,12 @@ function CitiesList() {
         {
           CITIES.map((city) => (
             <li key={`${city.name}-tab`} className="locations__item">
-              <a className={classNames({
-                'locations__item-link tabs__item': true,
-                'tabs__item--active' : city.name === currentCity.name})}
-              href="#" data-city={city.name}
-              onClick={cityTabClickHandler}
+              <a
+                className={classNames({
+                  'locations__item-link tabs__item': true,
+                  'tabs__item--active' : city.name === currentCity.name})}
+                href="#"
+                onClick={getCityClickHandler(city)}
               >
                 <span>{city.name}</span>
               </a>

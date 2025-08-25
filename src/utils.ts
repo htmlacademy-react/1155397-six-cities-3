@@ -3,15 +3,25 @@ import { TReviews } from './types/reviews';
 import { TSortDictionary, TSortBy } from './types/sort';
 import { TOffers } from './types/offers';
 
-export const calculateStarRating = (rating: number) => `${Math.round(rating) * 100 / 5}%`;
+export const calculateStarRating = (rating: number = 0) => `${Math.round(rating) * 100 / 5}%`;
 
 export const formatDateReview = (date: string) => dayjs(date).format('MMMM YYYY');
 
+// export const sortReviewsByDate = (reviews: TReviews | null) => {
+//   if (reviews && reviews.length > 1) {
+//     reviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
+//     return reviews;
+//   }
+// };
+
 export const sortReviewsByDate = (reviews: TReviews | null) => {
-  if (reviews && reviews.length > 1) {
-    reviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
-    return reviews;
+  if (reviews !== null && reviews.length > 1) {
+    const newReviews = [...reviews];
+    newReviews.sort((firstReview, secondReview) => dayjs(secondReview.date).valueOf() - dayjs(firstReview.date).valueOf());
+
+    return newReviews;
   }
+  return reviews;
 };
 
 export const SortDictionary: TSortDictionary = {

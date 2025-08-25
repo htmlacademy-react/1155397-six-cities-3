@@ -1,14 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, updateOffers, sortOffers, loadingApp, updateAuthorization, initializeOffers, setCurrentOffer } from './action';
+import { selectCity,
+  sortOffers,
+  loadingApp,
+  updateAuthorization,
+  initializeOffers,
+  setCurrentOffer,
+  setReviews,
+  addNewReview } from './action';
 import { TCity, TDetailOffer, TOffers } from '../types/offers';
 import { AuthorizationStatus, CITIES } from '../const';
 import { TSortBy } from '../types/sort';
-import { sortAndFilterOffers } from '../utils';
 import { TReviews } from '../types/reviews';
 
 type TinitialState = {
     city: TCity;
-    initialOffers: TOffers;
     offers: TOffers;
     sort: TSortBy;
     isLoading: boolean;
@@ -20,7 +25,6 @@ type TinitialState = {
 
 export const initialState: TinitialState = {
   city: CITIES[1],
-  initialOffers: [],
   offers: [],
   sort: 'Popular',
   isLoading: false,
@@ -35,16 +39,11 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(selectCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(updateOffers, (state) => {
-      if (state.initialOffers) {
-        state.offers = sortAndFilterOffers(state.city.name, state.initialOffers);
-      }
-    })
     .addCase(sortOffers, (state, action) => {
       state.sort = action.payload;
     })
     .addCase(initializeOffers, (state, action) => {
-      state.initialOffers = action.payload.offers;
+      state.offers = action.payload.offers;
     })
     .addCase(loadingApp, (state) => {
       state.isLoading = !state.isLoading;
@@ -54,6 +53,16 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentOffer, (state,action) => {
       state.currentOffer = action.payload;
+    })
+    .addCase(setReviews, (state,action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(addNewReview, (state, action) => {
+      if (state.reviews) {
+        state.reviews.push(action.payload);
+      } else {
+        state.reviews = [action.payload];
+      }
     });
 });
 

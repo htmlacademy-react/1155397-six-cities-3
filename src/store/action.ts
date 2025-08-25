@@ -2,10 +2,10 @@ import { createAction } from '@reduxjs/toolkit';
 import { TCity, TOffers, TDetailOffer } from '../types/offers';
 import { TSortBy } from '../types/sort';
 import { AuthorizationStatus, AppRoute } from '../const';
-import { TReviews } from '../types/reviews';
+import { TReviews, TReview } from '../types/reviews';
 
 export const loadingApp = createAction('loadingApp');
-export const updateOffers = createAction('uploadOffers');
+export const updateOffers = createAction('fetchOffers');
 export const initializeOffers = createAction<{offers: TOffers}>('initializeOffers');
 export const selectCity = createAction<TCity>('selectCity');
 export const sortOffers = createAction<TSortBy>('sortOffers');
@@ -14,3 +14,5 @@ export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 export const setCurrentOffer = createAction<TDetailOffer>('setCurrentOffer');
 export const setNearbyOffers = createAction<TOffers>('setNearbyOffers');
 export const setReviews = createAction<TReviews>('setReviews');
+export const addNewReview = createAction<TReview>('addNewReview');
+
