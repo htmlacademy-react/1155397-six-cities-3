@@ -9,6 +9,7 @@ import ReviewsList from '../../components/reviews-list/rewies-list';
 import { AuthorizationStatus } from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import PlacesList from '../../components/places-list/places-list';
+import Map from '../../components/map/map';
 
 function OfferPage() {
   const { offerId } = useParams();
@@ -17,6 +18,7 @@ function OfferPage() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const nearByOffers = useAppSelector((state) => state.nearByOffers);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   useEffect(() => {
     if(offerId && currentOffer?.id !== offerId) {
@@ -130,8 +132,13 @@ function OfferPage() {
             </section>
           </div>
         </div>
-        <section className="offer__map map">
-        </section>
+        { currentOffer?.city &&
+          <Map
+            className='offer__map'
+            offers={nearByOffers}
+            city={currentOffer?.city}
+            selectedPoint={null}
+          />}
       </section>
       <div className="container">
         { nearByOffers &&
