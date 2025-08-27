@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { ChangeEventHandler, useState } from 'react';
 import { starRating } from '../../const';
 import { fetchNewReview } from '../../store/api-action';
-import { store } from '../../store';
+import { useAppDispatch } from '../../store/hooks';
+
 type ReviewsFormProps = {
   offerId: string;
 }
 
 function ReviewForm({offerId}: ReviewsFormProps) {
+  const dispatch = useAppDispatch();
   const form = useRef<HTMLFormElement>(null);
   const [formStatus, setFormStatus] = useState(false);
   const [submitButtonStatus, setSubmitButtonStatus] = useState(true);
@@ -49,7 +51,7 @@ function ReviewForm({offerId}: ReviewsFormProps) {
     e.preventDefault();
     setSubmitButtonStatus(true);
     setFormStatus(true);
-    store.dispatch(fetchNewReview({...formData, disableForm: (status: boolean) => toggleFormStatus(status)}));
+    dispatch(fetchNewReview({...formData, disableForm: (status: boolean) => toggleFormStatus(status)}));
   };
 
   return (

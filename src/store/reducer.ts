@@ -19,7 +19,7 @@ type TinitialState = {
     sort: TSortBy;
     isLoading: boolean;
     authorizationStatus: AuthorizationStatus;
-    currentOffer: TDetailOffer | null;
+    currentOffer: null | TDetailOffer;
     nearByOffers: TOffers;
     reviews: TReviews;
 }
