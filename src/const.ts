@@ -2,6 +2,9 @@ import { TCities } from './types/offers';
 import { StatusCodes } from 'http-status-codes';
 
 export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;
+export const DEFAULT_RATING_VALUE = 0;
 
 export enum AuthorizationStatus {
     Auth = 'AUTH',

@@ -12,4 +12,10 @@ export type TReview = {
     rating: number;
 };
 
+export type TReviewFormStatus = {
+    loading: boolean;
+    successMessage?: string;
+    errorMessage?: string;
+}
+
 export type TReviews = TReview[];

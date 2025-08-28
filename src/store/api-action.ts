@@ -109,17 +109,21 @@ export const fetchNewReview = createAsyncThunk<TReview | undefined, {
   offerId: string;
   comment: string;
   rating: number;
-  disableForm: (status: boolean) => void;}, {
+  onSuccess: (successMessage: string) => void;
+  onFail: (errorMessage: string) => void;
+    }, {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
-  }>('loginUser', async ({ offerId, comment, rating, disableForm }, {extra: api}) => {
+  }>('loginUser', async ({ offerId, comment, rating, onSuccess, onFail }, {extra: api}) => {
       try {
         const { data } = await api.post<TReview>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
-        disableForm(true);
+        const successMessage: string = 'Комментарий успешно отправлен!';
+        onSuccess(successMessage);
         return data;
-      } catch {
-        disableForm(false);
+      } catch(error) {
+        const errorMessage: string = 'Ошибка при отправке комментария';
+        onFail(errorMessage);
       }
     });
 

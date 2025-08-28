@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ChangeEventHandler, useState } from 'react';
-import { starRating } from '../../const';
+import { starRating, MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, DEFAULT_RATING_VALUE } from '../../const';
 import { fetchNewReview } from '../../store/api-action';
 import { useAppDispatch } from '../../store/hooks';
 
@@ -11,21 +11,19 @@ type ReviewsFormProps = {
 function ReviewForm({offerId}: ReviewsFormProps) {
   const dispatch = useAppDispatch();
   const form = useRef<HTMLFormElement>(null);
-  const [formStatus, setFormStatus] = useState(false);
-  const [submitButtonStatus, setSubmitButtonStatus] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',
     offerId: offerId,
   });
 
-  useEffect(() => {
-    if(formData.rating > 0 && formData.comment.length >= 50) {
-      setSubmitButtonStatus(false);
-    } else {
-      setSubmitButtonStatus(true);
-    }
-  }, [formData]);
+  const isFormValid = () => {
+    const { comment, rating } = formData;
+    return comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING_VALUE;
+  };
 
   type TGetHandler = (type: keyof typeof formData) => ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
@@ -33,29 +31,41 @@ function ReviewForm({offerId}: ReviewsFormProps) {
     setFormData({ ...formData, [type]: type === 'rating' ? Number(target.value) : target.value });
   };
 
-  const toggleFormStatus = (status: boolean) => {
-    if(status) {
-      setFormData({
-        rating: 0,
-        comment: '',
-        offerId: offerId,
-      });
-      form.current?.reset();
-    } else {
-      setSubmitButtonStatus(false);
-    }
-    setFormStatus(false);
-  };
-
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitButtonStatus(true);
-    setFormStatus(true);
-    dispatch(fetchNewReview({...formData, disableForm: (status: boolean) => toggleFormStatus(status)}));
+    if (!isFormValid()) {
+      return;
+    }
+    setIsSubmitting(true);
+    dispatch(fetchNewReview({
+      ...formData,
+      onSuccess: (successMessage) => {
+        setFormData({ comment: '', rating: 0, offerId });
+        form.current?.reset();
+        setIsSubmitting(false);
+        setSuccess(successMessage);
+        setTimeout(() => setSuccess(''), 3000);
+      },
+      onFail: (errorMessage) => {
+        setIsSubmitting(false);
+        setError(errorMessage);
+        setTimeout(() => setError(''), 3000);
+      },
+    }));
   };
 
   return (
     <form ref={form} className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
+      {error && (
+        <div className="form__error" style={{ color: '#b22222', backgroundColor: '#ffeded', padding: '10px', marginBottom: '10px', borderRadius: '6px', fontSize: '14px', }}>
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="form__error" style={{ color: '#334d18', backgroundColor: '#b3fabeff', padding: '10px', marginBottom: '10px', borderRadius: '6px', fontSize: '14px', }}>
+          {success}
+        </div>
+      )}
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {starRating.map(({ starCount, title }) => (
@@ -67,7 +77,7 @@ function ReviewForm({offerId}: ReviewsFormProps) {
               id={`${starCount}-stars`}
               type="radio"
               onChange={getHandler('rating')}
-              disabled={formStatus}
+              disabled={isSubmitting}
             />
             <label
               htmlFor={`${starCount}-stars`}
@@ -87,7 +97,7 @@ function ReviewForm({offerId}: ReviewsFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         className="reviews__textarea form__textarea"
         onChange={getHandler('comment')}
-        disabled={formStatus}
+        disabled={isSubmitting}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -97,7 +107,7 @@ function ReviewForm({offerId}: ReviewsFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={submitButtonStatus}
+          disabled={isSubmitting || !isFormValid()}
         >Submit
         </button>
       </div>
