@@ -7,12 +7,15 @@ import Loader from '../../components/loader/loader';
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
+import { SortDictionary } from '../../utils';
+import { TOffers } from '../../types/offers';
 
 function MainPage() {
   const offers = useAppSelector((state)=> state.offers);
   const currentCity = useAppSelector((state) => state.city);
+  const currentSort = useAppSelector((state) => state.sort);
   const currentOffers = offers.filter(({city}) => city.name === currentCity.name);
-
+  const sortedoffers: TOffers = currentSort === 'Popular' ? currentOffers : currentOffers.slice().sort(SortDictionary[currentSort]);
   const [activeOffer, setactiveOffer] = useState<null | string>(null);
   const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
   const emptyPageClass = offers.length === 0 ? 'page__main--index-empty' : '';
@@ -40,7 +43,7 @@ function MainPage() {
             <b className="places__found">{currentOffers.length} places to stay in {currentCity.name}</b>
             <Sorting />
             <PlacesList
-              offers={currentOffers}
+              offers={sortedoffers}
               cardVariant={'primary'}
               onActiveOfferChange={activeOfferChangeHandler}
             />
