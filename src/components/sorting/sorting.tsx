@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { sortOffers } from '../../store/action';
 import { SortKeys } from '../../utils';
-import { TSortNames } from '../../types/sort';
+import { TSortBy } from '../../types/sort';
 
 function Sorting() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,11 +13,11 @@ function Sorting() {
     setIsOpen(!isOpen);
   };
 
-  const handleSelectSortClick = (key: TSortNames) => {
+  const handleSelectSortClick = (key: TSortBy) => {
     dispatch(sortOffers(key));
   };
 
-  const getSortingHandler = (key: TSortNames) => () => {
+  const getSortingHandler = (key: TSortBy) => () => {
     handleToggleSortPopup();
     handleSelectSortClick(key);
   };

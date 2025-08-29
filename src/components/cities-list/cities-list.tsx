@@ -1,26 +1,36 @@
 import { CITIES } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectCity } from '../../store/action';
+import { TCity } from '../../types/offers';
+import classNames from 'classnames';
 
 function CitiesList() {
-  const selectedCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
+
+  const getCityClickHandler = (city: TCity) => () => {
+    dispatch(selectCity(city));
+  };
+
   return (
-    <ul className="locations__list tabs__list">
-      {
-        CITIES.map((city) => (
-          <li key={city.name} className="locations__item">
-            <a
-              className={`locations__item-link tabs__item ${city.name === selectedCity.name ? 'tabs__item--active' : ''}`}
-              href="#"
-              onClick={() => dispatch(selectCity(city))}
-            >
-              <span>{city.name}</span>
-            </a>
-          </li>)
-        )
-      }
-    </ul>
+    <section className="locations container">
+      <ul className="locations__list tabs__list">
+        {
+          CITIES.map((city) => (
+            <li key={`${city.name}-tab`} className="locations__item">
+              <a
+                className={classNames({
+                  'locations__item-link tabs__item': true,
+                  'tabs__item--active' : city.name === currentCity.name})}
+                href="#"
+                onClick={getCityClickHandler(city)}
+              >
+                <span>{city.name}</span>
+              </a>
+            </li>))
+        }
+      </ul>
+    </section>
   );
 }
 

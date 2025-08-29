@@ -20,17 +20,21 @@ export type TOffer = {
     title: string;
     type: string;
     price: number;
+    previewImage: string;
+    city: TCity;
+    location: TLocation;
     isFavorite: boolean;
     isPremium: boolean;
     rating: number;
+};
+
+export type TDetailOffer = Omit<TOffer, 'previewImage'> & {
     description: string;
     bedrooms: number;
     goods: string[];
-    previewImage: string;
-    maxAdults: number;
-    location: TLocation;
-    city: TCity;
     host: THost;
+    images: string[];
+    maxAdults: number;
 };
 
 export type TMapPin = {
@@ -40,4 +44,5 @@ export type TMapPin = {
 }
 
 export type TOffers = TOffer[];
+export type TDetailOffers = TDetailOffer[];
 export type TCities = TCity[];

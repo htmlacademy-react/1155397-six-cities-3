@@ -2,6 +2,9 @@ import { TCities } from './types/offers';
 import { StatusCodes } from 'http-status-codes';
 
 export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;
+export const DEFAULT_RATING_VALUE = 0;
 
 export enum AuthorizationStatus {
     Auth = 'AUTH',
@@ -9,12 +12,19 @@ export enum AuthorizationStatus {
     Unknown = 'UNKNOWN',
 }
 
-export enum RoutePath {
+export enum AppRoute {
   Main = '/',
   NotFound = '*',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
+}
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments',
 }
 
 export enum PlaceCardClassNamePrefix {
@@ -99,15 +109,10 @@ export const LEAFLET_TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetm
 export const LEAFLET_DEFAULT_PIN = 'img/pin.svg';
 export const LEAFLET_ACTIVE_PIN = 'img/pin-active.svg';
 
-export enum APIRoute {
-  Offers = '/offers',
-  Login = '/login',
-  Logout = '/logout',
-}
-
 export const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: true,
   [StatusCodes.NOT_FOUND]: true
 };
 
+export const NearbyOffersCount:number = 3;

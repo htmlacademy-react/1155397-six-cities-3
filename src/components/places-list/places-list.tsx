@@ -1,6 +1,6 @@
+import PlaceCard from '../place-card/place-card';
 import { TOffers, TOffer} from '../../types/offers';
 import { TPlaceCardVariant } from '../../const';
-import PlaceCard from '../place-card/place-card';
 
 type TPlaceListProps = {
   offers: TOffers;

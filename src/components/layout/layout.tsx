@@ -1,6 +1,6 @@
 import { useNavigate, Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
-import { AuthorizationStatus, RoutePath } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import classNames from 'classnames';
 import { useAppDispatch } from '../../store/hooks';
 import { logoutUser } from '../../store/api-action';
@@ -8,29 +8,29 @@ import { logoutUser } from '../../store/api-action';
 function Layout() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const pathname = window.location.pathname as RoutePath;
-  const isUserNotAuth = pathname !== RoutePath.Login;
+  const pathname = window.location.pathname as AppRoute;
+  const isUserNotAuth = pathname !== AppRoute.Login;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const pageClassName = classNames({
     'page': true,
-    'page--gray page--main': (pathname === RoutePath.Main),
-    'page--gray page--login': (pathname === RoutePath.Login),
+    'page--gray page--main': (pathname === AppRoute.Main),
+    'page--gray page--login': (pathname === AppRoute.Login),
   });
 
   const headerLogoClassName = classNames({
     'header__logo-link': true,
-    'header__logo-link--active': (pathname === RoutePath.Main)}
+    'header__logo-link--active': (pathname === AppRoute.Main)}
   );
 
   const handleLoginClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if(isUserAuth) {
       dispatch(logoutUser());
-      navigate(RoutePath.Main);
+      navigate(AppRoute.Main);
     } else {
-      navigate(RoutePath.Login);
+      navigate(AppRoute.Login);
     }
   };
 
@@ -42,8 +42,8 @@ function Layout() {
             <div className="header__left">
               <Link
                 className={headerLogoClassName}
-                to={RoutePath.Main}
-                onClick={() => navigate(RoutePath.Main)}
+                to={AppRoute.Main}
+                onClick={() => navigate(AppRoute.Main)}
               >
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
@@ -63,7 +63,7 @@ function Layout() {
                   <li className="header__nav-item">
                     <Link
                       className="header__nav-link"
-                      to={(isUserAuth) ? RoutePath.Login : RoutePath.Main}
+                      to={(isUserAuth) ? AppRoute.Login : AppRoute.Main}
                       onClick={handleLoginClick}
                     >
                       <span className="header__signout">{(isUserAuth) ? 'Log Out' : 'Login'}</span>

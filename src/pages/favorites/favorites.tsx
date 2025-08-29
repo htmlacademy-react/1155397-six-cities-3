@@ -1,4 +1,5 @@
 // import { TOffers } from '../../types/offers';
+import { Helmet } from 'react-helmet-async';
 import PlacesList from '../../components/places-list/places-list';
 import { useAppSelector } from '../../store/hooks';
 
@@ -9,6 +10,9 @@ function Favorites() {
 
   return (
     <main className="page__main page__main--favorites">
+      <Helmet>
+        <title>6 cities: Favorites</title>
+      </Helmet>
       <div className="page__favorites-container container">
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
