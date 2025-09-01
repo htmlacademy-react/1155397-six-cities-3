@@ -15,7 +15,9 @@ function MainPage() {
   const currentCity = useAppSelector((state) => state.city);
   const currentSort = useAppSelector((state) => state.sort);
   const currentOffers = offers.filter(({city}) => city.name === currentCity.name);
-  const sortedoffers: TOffers = currentSort === 'Popular' ? currentOffers : currentOffers.slice().sort(SortDictionary[currentSort]);
+  const sortedoffers: TOffers = currentSort === 'Popular'
+    ? currentOffers
+    : currentOffers.slice().sort(SortDictionary[currentSort]);
   const [activeOffer, setactiveOffer] = useState<null | string>(null);
   const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
   const emptyPageClass = offers.length === 0 ? 'page__main--index-empty' : '';

@@ -5,6 +5,7 @@ export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
 export const DEFAULT_RATING_VALUE = 0;
+export const NEAR_BY_OFFERS_COUNT = 3;
 
 export enum AuthorizationStatus {
     Auth = 'AUTH',
@@ -114,5 +115,3 @@ export const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.UNAUTHORIZED]: true,
   [StatusCodes.NOT_FOUND]: true
 };
-
-export const NearbyOffersCount:number = 3;

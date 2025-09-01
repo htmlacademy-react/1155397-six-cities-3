@@ -16,7 +16,7 @@ import { TReviews, TReview } from '../types/reviews';
 import { TAuth, TUser } from '../types/auth';
 import { removeToken, saveToken } from '../services/token';
 import { getRandomSubArray } from '../utils';
-import { NearbyOffersCount } from '../const';
+import { NEAR_BY_OFFERS_COUNT } from '../const';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
     dispatch: AppDispatch;
@@ -135,5 +135,5 @@ export const fetchNearbyOffers = createAsyncThunk<void, string, {
   'fetchOfferById',
   async (offerId, { dispatch, extra: api}) => {
     const { data } = await api.get<TOffers>(`${APIRoute.Offers}/${offerId}/nearby`);
-    dispatch(setNearbyOffers(getRandomSubArray<TOffer>(data, NearbyOffersCount)));
+    dispatch(setNearbyOffers(getRandomSubArray<TOffer>(data, NEAR_BY_OFFERS_COUNT)));
   });

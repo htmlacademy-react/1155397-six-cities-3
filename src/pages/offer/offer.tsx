@@ -17,8 +17,8 @@ function OfferPage() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const nearByOffers = useAppSelector((state) => state.nearByOffers);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { offerId } = useParams();
+
   useEffect(() => {
     if(offerId && currentOffer?.id !== offerId) {
       dispatch(fetchOfferById(offerId));
@@ -99,7 +99,6 @@ function OfferPage() {
                       {good}
                     </li>
                   ))}
-
                 </ul>
               </div>
               <div className="offer__host">
@@ -113,14 +112,11 @@ function OfferPage() {
                   </span>
                   <span className="offer__user-status">
                     {currentOffer.host.isPro}
-
                   </span>
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    {
-                      currentOffer.description
-                    }
+                    {currentOffer.description}
                   </p>
                 </div>
               </div>
@@ -130,14 +126,12 @@ function OfferPage() {
               </section>
             </div>
           </div>
-          {
-            <Map
-              className='offer__map'
-              offers={nearByOffers}
-              city={currentOffer.city}
-              selectedPoint={null}
-            />
-          }
+          <Map
+            className='offer__map'
+            offers={nearByOffers}
+            city={currentOffer.city}
+            selectedPoint={null}
+          />
         </section>
         <div className="container">
           {nearByOffers &&
