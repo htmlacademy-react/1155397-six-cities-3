@@ -2,21 +2,21 @@ import { Helmet } from 'react-helmet-async';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchNearbyOffers, fetchOfferById } from '../../store/api-action';
 import Loader from '../../components/loader/loader';
 import { calculateStarRating } from '../../utils';
 import ReviewsList from '../../components/reviews-list/rewies-list';
-import { AuthorizationStatus } from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
+import { fetchOfferById,fetchNearbyOffers } from '../../store/thunks/offer';
+import { getOffer, getNearbyOffers } from '../../store/slices/offer-slice';
+import { getAuthStatus } from '../../store/slices/user-slice';
 
 function OfferPage() {
   const dispatch = useAppDispatch();
-  const currentOffer = useAppSelector((state) => state.currentOffer);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const nearByOffers = useAppSelector((state) => state.nearByOffers);
+  const currentOffer = useAppSelector(getOffer);
+  const isAuth = useAppSelector(getAuthStatus);
+  const nearByOffers = useAppSelector(getNearbyOffers);
   const { offerId } = useParams();
 
   useEffect(() => {

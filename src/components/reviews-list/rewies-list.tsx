@@ -1,16 +1,17 @@
 import { useAppSelector } from '../../store/hooks';
-import { fetchReviews } from '../../store/api-action';
+import { fetchReviews } from '../../store/thunks/reviews';
 import { store } from '../../store';
 import { useEffect } from 'react';
 import Review from '../review/review';
 import { sortReviewsByDate } from '../../utils';
+import { getReviews } from '../../store/slices/reviews-slice';
 
 type ReviewsListProps = {
   offerId: string;
 }
 
 function ReviewsList({offerId}: ReviewsListProps) {
-  const reviews = useAppSelector((state) => state.reviews);
+  const reviews = useAppSelector(getReviews);
   sortReviewsByDate(reviews);
   useEffect(() => {
     store.dispatch(fetchReviews(offerId));

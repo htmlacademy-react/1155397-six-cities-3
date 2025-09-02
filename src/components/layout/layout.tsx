@@ -1,13 +1,14 @@
 import { useNavigate, Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
-import { AuthorizationStatus, AppRoute } from '../../const';
+import { AppRoute } from '../../const';
 import classNames from 'classnames';
 import { useAppDispatch } from '../../store/hooks';
-import { logoutUser } from '../../store/api-action';
+import { logoutUser } from '../../store/thunks/user';
+import { getAuthStatus, getUserData } from '../../store/slices/user-slice';
 
 function Layout() {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const user = useAppSelector(getUserData);
+  const isAuth = useAppSelector(getAuthStatus);
   const pathname = window.location.pathname as AppRoute;
   const isUserNotAuth = pathname !== AppRoute.Login;
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Layout() {
 
   const handleLoginClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    if(isUserAuth) {
+    if(isAuth) {
       dispatch(logoutUser());
       navigate(AppRoute.Main);
     } else {
@@ -51,22 +52,22 @@ function Layout() {
             {isUserNotAuth &&
               <nav className="header__nav">
                 <ul className="header__nav-list">
-                  {isUserAuth &&
+                  {isAuth &&
                     <li className="header__nav-item user">
                       <a className="header__nav-link header__nav-link--profile" href="#">
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
-                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        <span className="header__user-name user__name">{user.email}</span>
                         <span className="header__favorite-count">0</span>
                       </a>
                     </li>}
                   <li className="header__nav-item">
                     <Link
                       className="header__nav-link"
-                      to={(isUserAuth) ? AppRoute.Login : AppRoute.Main}
+                      to={(isAuth) ? AppRoute.Login : AppRoute.Main}
                       onClick={handleLoginClick}
                     >
-                      <span className="header__signout">{(isUserAuth) ? 'Log Out' : 'Login'}</span>
+                      <span className="header__signout">{(isAuth) ? 'Log Out' : 'Login'}</span>
                     </Link>
                   </li>
                 </ul>

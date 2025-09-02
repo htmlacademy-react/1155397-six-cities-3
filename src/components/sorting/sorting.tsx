@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { sortOffers } from '../../store/action';
 import { SortKeys } from '../../utils';
 import { TSortBy } from '../../types/sort';
+import { getCurrentSort } from '../../store/slices/offers-slice';
+import { changeSort } from '../../store/slices/offers-slice';
 
 function Sorting() {
   const [isOpen, setIsOpen] = useState(false);
-  const currentSort = useAppSelector((state) => state.sort);
+  const currentSort = useAppSelector(getCurrentSort);
   const dispatch = useAppDispatch();
 
   const handleToggleSortPopup = () => {
@@ -14,7 +15,7 @@ function Sorting() {
   };
 
   const handleSelectSortClick = (key: TSortBy) => {
-    dispatch(sortOffers(key));
+    dispatch(changeSort(key));
   };
 
   const getSortingHandler = (key: TSortBy) => () => {

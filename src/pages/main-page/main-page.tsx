@@ -9,11 +9,12 @@ import { useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { SortDictionary } from '../../utils';
 import { TOffers } from '../../types/offers';
+import { getOffers, getCurrentCity, getCurrentSort } from '../../store/slices/offers-slice';
 
 function MainPage() {
-  const offers = useAppSelector((state)=> state.offers);
-  const currentCity = useAppSelector((state) => state.city);
-  const currentSort = useAppSelector((state) => state.sort);
+  const offers = useAppSelector(getOffers);
+  const currentCity = useAppSelector(getCurrentCity);
+  const currentSort = useAppSelector(getCurrentSort);
   const currentOffers = offers.filter(({city}) => city.name === currentCity.name);
   const sortedoffers: TOffers = currentSort === 'Popular'
     ? currentOffers

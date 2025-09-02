@@ -1,9 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, useRef } from 'react';
-import { useAppDispatch } from '../../store/hooks';
-import { loginUser } from '../../store/api-action';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getAuthStatus } from '../../store/slices/user-slice';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../store/thunks/user';
+import { AppRoute } from '../../const';
 
 function Login() {
+  const isAuth = useAppSelector(getAuthStatus);
+  const navigate = useNavigate();
   const userEmail = useRef<HTMLInputElement | null>(null);
   const userPass = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
@@ -14,6 +19,10 @@ function Login() {
       dispatch(loginUser({email: userEmail.current.value, password: userPass.current.value}));
     }
   };
+
+  if(isAuth) {
+    navigate(AppRoute.Main);
+  }
 
   return(
     <main className="page__main page__main--login">
