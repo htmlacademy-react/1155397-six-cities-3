@@ -11,13 +11,16 @@ import Map from '../../components/map/map';
 import { fetchOfferById,fetchNearbyOffers } from '../../store/thunks/offer';
 import { getOffer, getNearbyOffers } from '../../store/slices/offer-slice';
 import { getAuthStatus } from '../../store/slices/user-slice';
+import { AuthorizationStatus } from '../../const';
+import { NEAR_BY_OFFERS_COUNT, MAX_DETAIL_OFFER_IMG_COUNT } from '../../const';
+import classNames from 'classnames';
 
-function OfferPage() {
+function Offer() {
+  const { offerId } = useParams();
   const dispatch = useAppDispatch();
   const currentOffer = useAppSelector(getOffer);
   const isAuth = useAppSelector(getAuthStatus);
   const nearByOffers = useAppSelector(getNearbyOffers);
-  const { offerId } = useParams();
 
   useEffect(() => {
     if(offerId && currentOffer?.id !== offerId) {
@@ -38,7 +41,7 @@ function OfferPage() {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {currentOffer.images.map((imageSrc) => (
+              {currentOffer.images.slice(0, MAX_DETAIL_OFFER_IMG_COUNT).map((imageSrc) => (
                 <div key={imageSrc} className="offer__image-wrapper">
                   <img className="offer__image" src={imageSrc} alt="Photo studio" />
                 </div>
@@ -104,14 +107,20 @@ function OfferPage() {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={
+                    classNames({
+                      'offer__avatar-wrapper user__avatar-wrapper': true,
+                      'offer__avatar-wrapper--pro': currentOffer.host.isPro,
+                    })
+                  }
+                  >
                     <img className="offer__avatar user__avatar" src={currentOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
                     {currentOffer.host.name}
                   </span>
                   <span className="offer__user-status">
-                    {currentOffer.host.isPro}
+                    {currentOffer.host.isPro ? 'Pro' : ''}
                   </span>
                 </div>
                 <div className="offer__description">
@@ -122,15 +131,15 @@ function OfferPage() {
               </div>
               <section className="offer__reviews reviews">
                 {offerId && <ReviewsList offerId={offerId}/>}
-                {isAuth && offerId && <ReviewForm offerId={offerId} />}
+                {isAuth === AuthorizationStatus.Auth && offerId && <ReviewForm offerId={offerId} />}
               </section>
             </div>
           </div>
           <Map
             className='offer__map'
-            offers={nearByOffers}
+            offers={[...nearByOffers.slice(0, NEAR_BY_OFFERS_COUNT), currentOffer]}
             city={currentOffer.city}
-            selectedPoint={null}
+            selectedPoint={currentOffer.id}
           />
         </section>
         <div className="container">
@@ -139,7 +148,7 @@ function OfferPage() {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               <PlacesList
-                offers={nearByOffers}
+                offers={nearByOffers.slice(0, NEAR_BY_OFFERS_COUNT)}
                 cardVariant={'primary'}
                 onActiveOfferChange={() => {}}
               />
@@ -151,4 +160,4 @@ function OfferPage() {
   }
 }
 
-export default OfferPage;
+export default Offer;

@@ -1,23 +1,30 @@
 import { useNavigate, Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import classNames from 'classnames';
 import { useAppDispatch } from '../../store/hooks';
 import { logoutUser } from '../../store/thunks/user';
 import { getAuthStatus, getUserData } from '../../store/slices/user-slice';
+import { getFavoriteOffers } from '../../store/slices/favorite-slice';
+import { getOffers } from '../../store/slices/offers-slice';
 
 function Layout() {
   const user = useAppSelector(getUserData);
-  const isAuth = useAppSelector(getAuthStatus);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isAuth = authStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const isUserNotAuth = pathname !== AppRoute.Login;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const offers = useAppSelector(getOffers);
+  const favoriteOffes = useAppSelector(getFavoriteOffers);
 
   const pageClassName = classNames({
     'page': true,
     'page--gray page--main': (pathname === AppRoute.Main),
     'page--gray page--login': (pathname === AppRoute.Login),
+    'page--favorites-empty': (pathname === AppRoute.Favorites && favoriteOffes.length === 0),
+    'page__main--index-empty': (pathname === AppRoute.Main && offers.length === 0),
   });
 
   const headerLogoClassName = classNames({
@@ -57,17 +64,20 @@ function Layout() {
                       <a className="header__nav-link header__nav-link--profile" href="#">
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
-                        <span className="header__user-name user__name">{user.email}</span>
+                        <Link to={AppRoute.Favorites}>
+                          <span className="header__user-name user__name">{user.email}</span>
+                        </Link>
                         <span className="header__favorite-count">0</span>
                       </a>
                     </li>}
                   <li className="header__nav-item">
-                    <Link
-                      className="header__nav-link"
-                      to={(isAuth) ? AppRoute.Login : AppRoute.Main}
-                      onClick={handleLoginClick}
-                    >
-                      <span className="header__signout">{(isAuth) ? 'Log Out' : 'Login'}</span>
+                    <Link className="header__nav-link" to={isAuth ? AppRoute.Login : AppRoute.Main} onClick={handleLoginClick}>
+                      <span className={classNames({
+                        'header__login' : !isAuth,
+                        'header__signout' : isAuth
+                      })}
+                      >{isAuth ? 'Log Out' : 'Log in'}
+                      </span>
                     </Link>
                   </li>
                 </ul>

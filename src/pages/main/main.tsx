@@ -11,7 +11,7 @@ import { SortDictionary } from '../../utils';
 import { TOffers } from '../../types/offers';
 import { getOffers, getCurrentCity, getCurrentSort } from '../../store/slices/offers-slice';
 
-function MainPage() {
+function Main() {
   const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getCurrentCity);
   const currentSort = useAppSelector(getCurrentSort);
@@ -19,8 +19,8 @@ function MainPage() {
   const sortedoffers: TOffers = currentSort === 'Popular'
     ? currentOffers
     : currentOffers.slice().sort(SortDictionary[currentSort]);
-  const [activeOffer, setactiveOffer] = useState<null | string>(null);
-  const activeOfferChangeHandler = (id: string | null) => setactiveOffer(id);
+  const [activeOffer, setActiveOffer] = useState<string | null>(null);
+  const activeOfferChangeHandler = (id: string | null) => setActiveOffer(id);
   const emptyPageClass = offers.length === 0 ? 'page__main--index-empty' : '';
   const emptyContainerClass = offers.length === 0 ? 'cities__places-container--empty' : '';
 
@@ -58,7 +58,6 @@ function MainPage() {
               city={currentCity}
               selectedPoint={activeOffer}
             />
-
           </div>
         </div>
       </div>}
@@ -66,4 +65,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default Main;

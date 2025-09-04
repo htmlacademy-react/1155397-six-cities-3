@@ -6,6 +6,7 @@ export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
 export const DEFAULT_RATING_VALUE = 0;
 export const NEAR_BY_OFFERS_COUNT = 3;
+export const MAX_DETAIL_OFFER_IMG_COUNT = 6;
 
 export enum AuthorizationStatus {
     Auth = 'AUTH',
@@ -26,6 +27,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Favorites = '/favorites',
 }
 
 export enum PlaceCardClassNamePrefix {
@@ -35,15 +37,6 @@ export enum PlaceCardClassNamePrefix {
 }
 
 export const CITIES: TCities = [
-  {
-    name: 'Amsterdam',
-    location:{
-      latitude: 52.3909553943508,
-      longitude: 4.897070,
-      zoom: 12,
-
-    }
-  },
   {
     name: 'Paris',
     location:{
@@ -67,6 +60,15 @@ export const CITIES: TCities = [
     location:{
       latitude: 50.85045,
       longitude: 4.34878,
+      zoom: 12,
+
+    }
+  },
+  {
+    name: 'Amsterdam',
+    location:{
+      latitude: 52.3909553943508,
+      longitude: 4.897070,
       zoom: 12,
 
     }
@@ -115,3 +117,8 @@ export const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.UNAUTHORIZED]: true,
   [StatusCodes.NOT_FOUND]: true
 };
+
+export const enum FavoriteValue {
+  Add = 1,
+  Remove = 0,
+}

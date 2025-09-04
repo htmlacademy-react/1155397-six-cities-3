@@ -20,7 +20,7 @@ export type TOffer = {
     title: string;
     type: string;
     price: number;
-    previewImage: string;
+    previewImage?: string;
     city: TCity;
     location: TLocation;
     isFavorite: boolean;

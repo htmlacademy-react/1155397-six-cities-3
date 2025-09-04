@@ -8,17 +8,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import { checkAuthorization } from './store/thunks/user';
 import { fetchOffers } from './store/thunks/offers';
 
+store.dispatch(fetchOffers());
+store.dispatch(checkAuthorization());
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(fetchOffers());
-store.dispatch(checkAuthorization());
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
+      <ToastContainer style={{right: '50%'}}/>
       <App />
     </Provider>
   </React.StrictMode>

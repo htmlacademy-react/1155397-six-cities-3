@@ -12,16 +12,18 @@ type ReviewsListProps = {
 
 function ReviewsList({offerId}: ReviewsListProps) {
   const reviews = useAppSelector(getReviews);
-  sortReviewsByDate(reviews);
+  const sortedReviews = sortReviewsByDate(reviews);
+
   useEffect(() => {
     store.dispatch(fetchReviews(offerId));
   }, [offerId]);
+
 
   return (
     <>
       <h2 className="reviews__title">Reviews&middot; <span className="reviews__amount">{ reviews.length}</span></h2>
       <ul className="reviews__list">
-        {reviews && reviews.slice(0,10).map((review) => <Review key={review.id} review={review} />)}
+        {sortedReviews && sortedReviews.slice(0,10).map((review) => <Review key={review.id} review={review} />)}
       </ul>
     </>
   );
