@@ -5,19 +5,19 @@ import { useEffect } from 'react';
 import Review from '../review/review';
 import { sortReviewsByDate } from '../../utils';
 import { getReviews } from '../../store/slices/reviews-slice';
+import { memo } from 'react';
 
 type ReviewsListProps = {
   offerId: string;
 }
 
-function ReviewsList({offerId}: ReviewsListProps) {
+function ReviewsListComponents({offerId}: ReviewsListProps) {
   const reviews = useAppSelector(getReviews);
   const sortedReviews = sortReviewsByDate(reviews);
 
   useEffect(() => {
     store.dispatch(fetchReviews(offerId));
   }, [offerId]);
-
 
   return (
     <>
@@ -28,5 +28,7 @@ function ReviewsList({offerId}: ReviewsListProps) {
     </>
   );
 }
+
+const ReviewsList = memo(ReviewsListComponents);
 
 export default ReviewsList;

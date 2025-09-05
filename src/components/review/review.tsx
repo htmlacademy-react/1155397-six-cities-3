@@ -1,11 +1,12 @@
 import { TReview } from '../../types/reviews';
 import { calculateStarRating, formatDateReview } from '../../utils';
+import { memo } from 'react';
 
 type TReviewProps = {
   review: TReview;
 }
 
-function Review({review}: TReviewProps) {
+function ReviewComponent({review}: TReviewProps) {
   const {comment, rating, date, user} = review;
 
   return(
@@ -29,5 +30,7 @@ function Review({review}: TReviewProps) {
     </li>
   );
 }
+
+const Review = memo(ReviewComponent);
 
 export default Review;

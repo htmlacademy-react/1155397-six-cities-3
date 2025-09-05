@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { SortKeys } from '../../utils';
@@ -5,7 +6,7 @@ import { TSortBy } from '../../types/sort';
 import { getCurrentSort } from '../../store/slices/offers-slice';
 import { changeSort } from '../../store/slices/offers-slice';
 
-function Sorting() {
+function SortingComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const currentSort = useAppSelector(getCurrentSort);
   const dispatch = useAppDispatch();
@@ -49,5 +50,7 @@ function Sorting() {
     </form>
   );
 }
+
+const Sorting = memo(SortingComponent);
 
 export default Sorting;

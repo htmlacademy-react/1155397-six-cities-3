@@ -14,6 +14,10 @@ import { getAuthStatus } from '../../store/slices/user-slice';
 import { AuthorizationStatus } from '../../const';
 import { NEAR_BY_OFFERS_COUNT, MAX_DETAIL_OFFER_IMG_COUNT } from '../../const';
 import classNames from 'classnames';
+import { changeFavorite } from '../../store/thunks/favorites';
+import { AppRoute } from '../../const';
+import { useNavigate } from 'react-router-dom';
+import { MouseEventHandler } from 'react';
 
 function Offer() {
   const { offerId } = useParams();
@@ -21,6 +25,7 @@ function Offer() {
   const currentOffer = useAppSelector(getOffer);
   const isAuth = useAppSelector(getAuthStatus);
   const nearByOffers = useAppSelector(getNearbyOffers);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(offerId && currentOffer?.id !== offerId) {
@@ -29,6 +34,22 @@ function Offer() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleBookmark: MouseEventHandler<HTMLButtonElement> = () => {
+    if(currentOffer) {
+      if(isAuth) {
+        const status = (currentOffer.isFavorite) ? 0 : 1;
+        dispatch(changeFavorite({offerId: currentOffer.id, status: status}));
+      } else {
+        navigate(AppRoute.Login);
+      }
+    }
+  };
+
+  const currentOfferIsFavorite = classNames({
+    'offer__bookmark-button button': true,
+    'offer__bookmark-button--active': currentOffer?.isFavorite
+  });
 
   if(!currentOffer || currentOffer.id !== offerId) {
     <Loader/>;
@@ -58,7 +79,11 @@ function Offer() {
                 <h1 className="offer__name">
                   {currentOffer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={currentOfferIsFavorite}
+                  type="button"
+                  onClick={handleBookmark}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>

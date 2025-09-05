@@ -16,7 +16,7 @@ export const fetchFavorites = createAsyncThunk<TOffers, undefined, {
   }>(
     'favorites/fetchFavorites',
     async (_args, {extra: api}) => {
-      const { data } = await api.get<TOffers>(APIRoute.Favorites);
+      const { data } = await api.get<TOffers>(APIRoute.Favorite);
       return data;
     });
 
@@ -25,6 +25,6 @@ export const changeFavorite = createAsyncThunk<TOffer, TChangeFavoriteArgs ,{
   extra: AxiosInstance;
 }>(
   'favorites/changeFavorite', async ({offerId, status}, {extra: api}) => {
-    const { data } = await api.post<TOffer>(`${APIRoute.Favorites}/${offerId}/${status}`);
+    const { data } = await api.post<TOffer>(`${APIRoute.Favorite}/${offerId}/${status}`);
     return data;
   });

@@ -61,14 +61,12 @@ function Layout() {
                 <ul className="header__nav-list">
                   {isAuth &&
                     <li className="header__nav-item user">
-                      <a className="header__nav-link header__nav-link--profile" href="#">
+                      <Link to={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
-                        <Link to={AppRoute.Favorites}>
-                          <span className="header__user-name user__name">{user.email}</span>
-                        </Link>
-                        <span className="header__favorite-count">0</span>
-                      </a>
+                        <span className="header__user-name user__name">{user.email}</span>
+                        <span className="header__favorite-count">{favoriteOffes ? favoriteOffes.length : 0 }</span>
+                      </Link>
                     </li>}
                   <li className="header__nav-item">
                     <Link className="header__nav-link" to={isAuth ? AppRoute.Login : AppRoute.Main} onClick={handleLoginClick}>
