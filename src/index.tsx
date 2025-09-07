@@ -6,9 +6,7 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { checkAuthorization } from './store/thunks/user';
-import { fetchOffers } from './store/thunks/offers';
 
-store.dispatch(fetchOffers());
 store.dispatch(checkAuthorization());
 
 const root = ReactDOM.createRoot(
@@ -18,7 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer style={{right: '50%'}}/>
+      <ToastContainer/>
       <App />
     </Provider>
   </React.StrictMode>

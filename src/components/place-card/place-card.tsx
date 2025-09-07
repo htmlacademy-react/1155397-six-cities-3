@@ -6,6 +6,7 @@ import { MouseEventHandler } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuthStatus } from '../../store/slices/user-slice';
 import { changeFavorite } from '../../store/thunks/favorites';
+import { memo } from 'react';
 
 type TPlaceCardVariant = keyof typeof TPlaceCardVariant;
 
@@ -19,7 +20,7 @@ type PlaceCardProps = {
   onPlaceCardHoverChange?: never;
 }
 
-function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
+function PlaceCardComponent({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
   const {id, title, type, price, isPremium, rating, previewImage} = offer;
   const {prefix, width, height} = TPlaceCardVariant[variant];
 
@@ -27,7 +28,8 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
   const isAuth = authStatus === AuthorizationStatus.Auth;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isFavorite = (offer.isFavorite) ? 'place-card__bookmark-button--active' : '';
+  const isFavorite = offer.isFavorite;
+  const bookmarkClass = offer.isFavorite ? 'place-card__bookmark-button--active' : '';
 
   const handleMouseEnter = onPlaceCardHoverChange && variant === 'primary'
     ? () => onPlaceCardHoverChange(id)
@@ -79,7 +81,7 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${isFavorite} button`}
+            className={`place-card__bookmark-button ${bookmarkClass} button`}
             type="button"
             onClick={handleBookmark}
           >
@@ -101,8 +103,9 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
         <p className="place-card__type">{type}</p>
       </div>
     </article>
-
   );
 }
+
+const PlaceCard = memo(PlaceCardComponent);
 
 export default PlaceCard;

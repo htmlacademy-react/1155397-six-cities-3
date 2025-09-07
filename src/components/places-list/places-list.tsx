@@ -1,6 +1,7 @@
 import PlaceCard from '../place-card/place-card';
 import { TOffers, TOffer} from '../../types/offers';
 import { TPlaceCardVariant } from '../../const';
+import { memo } from 'react';
 
 type TPlaceListProps = {
   offers: TOffers;
@@ -12,9 +13,10 @@ type TPlaceListProps = {
   onActiveOfferChange?: never;
 };
 
-function PlacesList({offers, cardVariant, onActiveOfferChange}: TPlaceListProps) {
+function PlacesListComponent({offers, cardVariant, onActiveOfferChange}: TPlaceListProps) {
+
   return(
-    <div className="cities__places-list places__list tabs__content">
+    <>
       {offers.map((offer: TOffer): JSX.Element => cardVariant === 'primary'
         ? (
           <PlaceCard
@@ -31,8 +33,13 @@ function PlacesList({offers, cardVariant, onActiveOfferChange}: TPlaceListProps)
           />
         )
       )}
-    </div>
+    </>
   );
 }
+const PlacesList = memo(
+  PlacesListComponent,
+  (prevProps, nextProps) =>
+    prevProps.offers === nextProps.offers && prevProps.cardVariant === nextProps.cardVariant
+);
 
 export default PlacesList;

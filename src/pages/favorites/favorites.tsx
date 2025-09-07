@@ -1,14 +1,23 @@
 import { Helmet } from 'react-helmet-async';
-import { useAppSelector } from '../../store/hooks';
-import { getFavoriteOffers } from '../../store/slices/favorite-slice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Footer from '../../components/footer/footer';
 import FavoriteEmpty from '../../components/favorite-empty/favorite-empty';
 import PlacesList from '../../components/places-list/places-list';
+import { useEffect } from 'react';
+import { fetchFavorites } from '../../store/thunks/favorites';
+import { getFavoriteOffers } from '../../store/slices/offers-slice';
+import { CITIES } from '../../const';
 
 function Favorites() {
-  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const dispatch = useAppDispatch();
+  const favoritesOffers = useAppSelector(getFavoriteOffers);
 
-  if(favoriteOffers.length === 0) {
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
+
+
+  if(favoritesOffers.length === 0) {
     return (
       <>
         <FavoriteEmpty />
@@ -26,11 +35,31 @@ function Favorites() {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                <PlacesList
-                  offers={favoriteOffers}
-                  cardVariant={'primary'}
-                  onActiveOfferChange={() => {}}
-                />
+                {
+                  favoritesOffers && CITIES.map((city) => {
+                    const cityOffers = favoritesOffers.filter((offer) => offer.city.name === city.name);
+                    if (cityOffers.length > 0) {
+                      return (
+                        <li className="favorites__locations-items" key={city.name}>
+                          <div className="favorites__locations locations locations--current">
+                            <div className="locations__item">
+                              <a className="locations__item-link" href="#">
+                                <span>{city.name}</span>
+                              </a>
+                            </div>
+                          </div>
+                          <div className="favorites__places">
+                            <PlacesList
+                              offers={cityOffers}
+                              cardVariant={'favorite'}
+                            />
+                          </div>
+                        </li>
+                      );
+                    }
+
+                  })
+                }
               </ul>
             </section>
           </div>

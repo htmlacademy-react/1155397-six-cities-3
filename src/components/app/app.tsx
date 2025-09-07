@@ -13,15 +13,24 @@ import { useAppSelector } from '../../store/hooks';
 import { AppRoute } from '../../const';
 import Offer from '../../pages/offer/offer';
 import { getLoadingStatus } from '../../store/slices/offers-slice';
+import { getErrorStatus } from '../../store/slices/offers-slice';
+import ErrorScreen from '../error-screen/error-screen';
 
 function App() {
   const isLoading = useAppSelector(getLoadingStatus);
+  const isError = useAppSelector(getErrorStatus);
 
   if(isLoading) {
     return (
       <HelmetProvider>
         <Loader/>
       </HelmetProvider>
+    );
+  }
+
+  if(isError) {
+    return (
+      <ErrorScreen/>
     );
   }
 

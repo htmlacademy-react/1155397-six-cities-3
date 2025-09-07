@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TOffers, TDetailOffer } from '../../types/offers';
 import { fetchOfferById, fetchNearbyOffers } from '../thunks/offer';
 import { State } from '../../types/state';
+import { changeFavorite } from '../thunks/favorites';
 
 type TOfferState = {
     currentOffer: TDetailOffer | null;
@@ -33,6 +34,17 @@ const detailOfferSlice = createSlice({
       })
       .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
         state.nearByOffers = action.payload;
+      })
+      .addCase(changeFavorite.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+
+        if (state.currentOffer?.id === updatedOffer.id) {
+          state.currentOffer = { ...state.currentOffer, isFavorite: updatedOffer.isFavorite };
+        }
+
+        state.nearByOffers = state.nearByOffers.map((offer) =>
+          offer.id === updatedOffer.id ? { ...offer, isFavorite: updatedOffer.isFavorite } : offer
+        );
       });
   }
 });

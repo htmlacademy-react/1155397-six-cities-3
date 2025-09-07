@@ -1,18 +1,24 @@
-// import { useAppDispatch } from '../../store/hooks';
-// import { fetchOffers } from '../../store/api-action';
+import { useAppDispatch } from '../../store/hooks';
+import { fetchOffers } from '../../store/thunks/offers';
+import '../error-screen/error-screen.css';
 
-// function ErrorScreen() {
-//   const dispatch = useAppDispatch();
-//   return (
-//     <div className="error-screen">
-//       <p>При загрузке произошла ошибка</p>
-//       <button type='button' onClick={() => {
-//         dispatch(fetchOffers());
-//       }}
-//       >Попробовать еще раз
-//       </button>
-//     </div>
-//   );
-// }
+function ErrorScreen() {
+  const dispatch = useAppDispatch();
+  const handleReloadBtnClick = () => {
+    dispatch(fetchOffers());
+  };
 
-// export default ErrorScreen;
+  return (
+    <div className="error-screen">
+      <p className="error-screen__text">При загрузке произошла ошибка</p>
+      <button
+        className="error-screen__reload-btn"
+        type="button"
+        onClick={handleReloadBtnClick}
+      >Попробовать еще раз
+      </button>
+    </div>
+  );
+}
+
+export default ErrorScreen;

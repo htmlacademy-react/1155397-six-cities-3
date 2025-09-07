@@ -4,6 +4,7 @@ import { State } from '../../types/state';
 import { TUser, TAuth } from '../../types/auth';
 import { APIRoute } from '../../const';
 import { saveToken, removeToken } from '../../services/token';
+import { clearFavorites } from '../slices/offers-slice';
 
 export const checkAuthorization = createAsyncThunk< TUser, undefined, {
   state: State;
@@ -31,5 +32,6 @@ export const logoutUser = createAsyncThunk<void, undefined, {
   'logoutUser', async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     removeToken();
+    clearFavorites();
   }
 );

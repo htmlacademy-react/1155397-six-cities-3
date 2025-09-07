@@ -5,25 +5,24 @@ import classNames from 'classnames';
 import { useAppDispatch } from '../../store/hooks';
 import { logoutUser } from '../../store/thunks/user';
 import { getAuthStatus, getUserData } from '../../store/slices/user-slice';
-import { getFavoriteOffers } from '../../store/slices/favorite-slice';
-import { getOffers } from '../../store/slices/offers-slice';
+import { getFavoriteOffers, getOffers } from '../../store/slices/offers-slice';
 
 function Layout() {
+  const dispatch = useAppDispatch();
+  const offers = useAppSelector(getOffers);
+  const favorites = useAppSelector(getFavoriteOffers);
   const user = useAppSelector(getUserData);
   const authStatus = useAppSelector(getAuthStatus);
   const isAuth = authStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const isUserNotAuth = pathname !== AppRoute.Login;
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const offers = useAppSelector(getOffers);
-  const favoriteOffes = useAppSelector(getFavoriteOffers);
 
   const pageClassName = classNames({
     'page': true,
     'page--gray page--main': (pathname === AppRoute.Main),
     'page--gray page--login': (pathname === AppRoute.Login),
-    'page--favorites-empty': (pathname === AppRoute.Favorites && favoriteOffes.length === 0),
+    'page--favorites-empty': (pathname === AppRoute.Favorites && favorites.length === 0),
     'page__main--index-empty': (pathname === AppRoute.Main && offers.length === 0),
   });
 
@@ -65,7 +64,7 @@ function Layout() {
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         <span className="header__user-name user__name">{user.email}</span>
-                        <span className="header__favorite-count">{favoriteOffes ? favoriteOffes.length : 0 }</span>
+                        <span className="header__favorite-count">{favorites ? favorites.length : '0'}</span>
                       </Link>
                     </li>}
                   <li className="header__nav-item">

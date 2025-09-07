@@ -4,14 +4,44 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuthStatus } from '../../store/slices/user-slice';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../store/thunks/user';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useEffect } from 'react';
+import { ChangeEvent } from 'react';
+import { useState } from 'react';
+import { CITIES } from '../../const';
+import { TCity } from '../../types/offers';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { changeCity } from '../../store/slices/offers-slice';
 
 function Login() {
+  const dispatch = useAppDispatch();
   const isAuth = useAppSelector(getAuthStatus);
   const navigate = useNavigate();
   const userEmail = useRef<HTMLInputElement | null>(null);
   const userPass = useRef<HTMLInputElement | null>(null);
-  const dispatch = useAppDispatch();
+  const [passwordError, setPasswordError] = useState<string>('');
+
+  useEffect(() => {
+    if (isAuth === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Main);
+    }
+  }, [isAuth, navigate]);
+
+  const randomCity: TCity = useMemo(() => CITIES[Math.floor(Math.random() * CITIES.length)], []);
+
+  const handleValidatePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+
+    if (value.length === 0) {
+      setPasswordError('');
+    } else if (!regex.test(value)) {
+      setPasswordError('Пароль должен содержать хотя бы одну букву и цифру.');
+    } else {
+      setPasswordError('');
+    }
+  };
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,9 +50,11 @@ function Login() {
     }
   };
 
-  if(isAuth) {
+  const handleCityButtonClick = (evt: React.MouseEvent<HTMLElement>) => {
+    evt.preventDefault();
+    dispatch(changeCity(randomCity));
     navigate(AppRoute.Main);
-  }
+  };
 
   return(
     <main className="page__main page__main--login">
@@ -39,16 +71,33 @@ function Login() {
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
-              <input ref={ userPass } className="login__input form__input" type="password" name="password" placeholder="Password" required />
+              <input
+                ref={ userPass }
+                className={`login__input form__input ${
+                  passwordError ? 'input-error' : ''
+                }`}
+                type="password"
+                name="password"
+                placeholder="Password"
+                onChange={handleValidatePassword}
+                required
+              />
+              {passwordError && (
+                <p className="error-message">{passwordError}</p>
+              )}
             </div>
             <button className="login__submit form__submit button" type="submit">Sign in</button>
           </form>
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>Amsterdam</span>
-            </a>
+            <Link
+              className="locations__item-link"
+              to={AppRoute.Main}
+              onClick={handleCityButtonClick}
+            >
+              <span>{randomCity.name}</span>
+            </Link>
           </div>
         </section>
       </div>
