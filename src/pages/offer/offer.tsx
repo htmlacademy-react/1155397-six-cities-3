@@ -9,7 +9,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import { fetchOfferById,fetchNearbyOffers } from '../../store/thunks/offer';
-import { getOffer, getNearbyOffers } from '../../store/slices/offer-slice';
+import { getOffer, getNearbyOffers } from '../../store/slices/detail-offer-slice';
 import { getAuthStatus } from '../../store/slices/user-slice';
 import { AuthorizationStatus } from '../../const';
 import { NEAR_BY_OFFERS_COUNT, MAX_DETAIL_OFFER_IMG_COUNT } from '../../const';
@@ -37,8 +37,8 @@ function Offer() {
 
   const handleBookmark: MouseEventHandler<HTMLButtonElement> = () => {
     if(currentOffer) {
+      const status = (currentOffer.isFavorite) ? 0 : 1;
       if(isAuth) {
-        const status = (currentOffer.isFavorite) ? 0 : 1;
         dispatch(changeFavorite({offerId: currentOffer.id, status: status}));
       } else {
         navigate(AppRoute.Login);

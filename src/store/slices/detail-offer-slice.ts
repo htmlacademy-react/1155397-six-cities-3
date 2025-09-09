@@ -4,7 +4,7 @@ import { fetchOfferById, fetchNearbyOffers } from '../thunks/offer';
 import { State } from '../../types/state';
 import { changeFavorite } from '../thunks/favorites';
 
-type TOfferState = {
+export type TOfferState = {
     currentOffer: TDetailOffer | null;
     nearByOffers: TOffers;
     isLoading: boolean;
@@ -36,14 +36,14 @@ const detailOfferSlice = createSlice({
         state.nearByOffers = action.payload;
       })
       .addCase(changeFavorite.fulfilled, (state, action) => {
-        const updatedOffer = action.payload;
+        const updated = action.payload;
 
-        if (state.currentOffer?.id === updatedOffer.id) {
-          state.currentOffer = { ...state.currentOffer, isFavorite: updatedOffer.isFavorite };
+        if (state.currentOffer && state.currentOffer.id === updated.id) {
+          state.currentOffer = { ...state.currentOffer, isFavorite: updated.isFavorite };
         }
 
         state.nearByOffers = state.nearByOffers.map((offer) =>
-          offer.id === updatedOffer.id ? { ...offer, isFavorite: updatedOffer.isFavorite } : offer
+          offer.id === updated.id ? { ...offer, isFavorite: updated.isFavorite } : offer
         );
       });
   }

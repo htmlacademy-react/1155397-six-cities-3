@@ -4,11 +4,11 @@ import { AuthorizationStatus } from '../../const';
 import { TUser } from '../../types/auth';
 import { checkAuthorization, loginUser, logoutUser } from '../thunks/user';
 
-const INITIAL_USER = {} as TUser;
+const INITIAL_USER = null;
 
 type TUserState = {
     authorizationStatus: AuthorizationStatus;
-    user: TUser;
+    user: TUser | null;
 }
 
 const initialState: TUserState = {
@@ -19,7 +19,8 @@ const initialState: TUserState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers(builder) {
     builder
       .addCase(checkAuthorization.fulfilled, (state, action) => {

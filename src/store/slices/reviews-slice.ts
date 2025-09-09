@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { TReviews } from '../../types/reviews';
 import { fetchReviews, addNewReview } from '../thunks/reviews';
 import { State } from '../../types/state';
+import { sortReviewsByDate } from '../../utils';
 
-type TReviewsState = {
+export type TReviewsState = {
     reviews: TReviews;
     isSubmittingStatus: boolean;
 };
@@ -39,5 +40,6 @@ const reviewsSlice = createSlice({
 
 const getReviews = (state: State): TReviews => state.reviews.reviews;
 const getReviewSubmittingStatus = (state: State) => state.reviews.isSubmittingStatus;
+const getSortedReviews = createSelector([getReviews], (reviews) => sortReviewsByDate(reviews));
 
-export {reviewsSlice, getReviews, getReviewSubmittingStatus};
+export {reviewsSlice, getReviews, getReviewSubmittingStatus, getSortedReviews};

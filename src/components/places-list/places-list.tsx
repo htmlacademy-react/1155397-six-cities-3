@@ -14,7 +14,6 @@ type TPlaceListProps = {
 };
 
 function PlacesListComponent({offers, cardVariant, onActiveOfferChange}: TPlaceListProps) {
-
   return(
     <>
       {offers.map((offer: TOffer): JSX.Element => cardVariant === 'primary'
@@ -36,10 +35,6 @@ function PlacesListComponent({offers, cardVariant, onActiveOfferChange}: TPlaceL
     </>
   );
 }
-const PlacesList = memo(
-  PlacesListComponent,
-  (prevProps, nextProps) =>
-    prevProps.offers === nextProps.offers && prevProps.cardVariant === nextProps.cardVariant
-);
+const PlacesList = memo(PlacesListComponent);
 
 export default PlacesList;

@@ -46,8 +46,8 @@ function PlaceCardComponent({offer, variant, onPlaceCardHoverChange}: PlaceCardP
 
   const handleBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
+    const status = (isFavorite) ? 0 : 1;
     if(isAuth) {
-      const status = (isFavorite) ? 0 : 1;
       dispatch(changeFavorite({offerId: id, status: status}));
     } else {
       navigate(AppRoute.Login);

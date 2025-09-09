@@ -7,10 +7,7 @@ import Loader from '../../components/loader/loader';
 import { Helmet } from 'react-helmet-async';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
-import { SortDictionary } from '../../utils';
-import { TOffers } from '../../types/offers';
-import { getOffers, getCurrentCity, getCurrentSort } from '../../store/slices/offers-slice';
-import { useMemo } from 'react';
+import { getOffers, getCurrentCity, getCityOffers, getSortedCityOffers } from '../../store/slices/offers-slice';
 import { fetchOffers } from '../../store/thunks/offers';
 import { useAppDispatch } from '../../store/hooks';
 
@@ -18,24 +15,14 @@ function Main() {
   const dispatch = useAppDispatch();
   const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getCurrentCity);
-  const currentSort = useAppSelector(getCurrentSort);
+  const currentOffers = useAppSelector(getCityOffers);
+  const sortedOffers = useAppSelector(getSortedCityOffers);
 
   useEffect(() => {
     if (!offers.length) {
       dispatch(fetchOffers());
     }
   }, [dispatch, offers.length]);
-
-  const currentOffers = offers.filter(
-    ({ city }) => city.name === currentCity.name
-  );
-
-  const sortedOffers = useMemo<TOffers>(() => {
-    if (currentSort === 'Popular') {
-      return currentOffers;
-    }
-    return [...currentOffers].sort(SortDictionary[currentSort]);
-  }, [currentOffers, currentSort]);
 
   const [activeOffer, setActiveOffer] = useState<string | null>(null);
   const activeOfferChangeHandler = useCallback((id: string | null) => setActiveOffer(id), []);

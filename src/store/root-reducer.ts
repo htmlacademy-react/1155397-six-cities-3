@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { offerSlice } from './slices/offers-slice';
-import { detailOfferSlice } from './slices/offer-slice';
+import { detailOfferSlice } from './slices/detail-offer-slice';
 import { userSlice } from './slices/user-slice';
 import { reviewsSlice } from './slices/reviews-slice';
 

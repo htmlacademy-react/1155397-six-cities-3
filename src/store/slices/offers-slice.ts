@@ -1,15 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { TCity, TOffers } from '../../types/offers';
 import { TSortBy } from '../../types/sort';
 import { CITIES } from '../../const';
 import { fetchOffers } from '../thunks/offers';
 import { State } from '../../types/state';
-import { fetchFavorites, changeFavorite } from '../thunks/favorites';
+import { changeFavorite } from '../thunks/favorites';
+import { SortDictionary } from '../../utils';
 
 type TOffersState = {
   city: TCity;
   offers: TOffers;
-  favorites: TOffers;
   sortBy: TSortBy;
   isLoading: boolean;
   isError: boolean;
@@ -18,7 +18,6 @@ type TOffersState = {
 const initialState = {
   city: CITIES[0],
   offers: [],
-  favorites: [],
   sortBy: 'Popular',
   isLoading: false,
   isError: false,
@@ -34,9 +33,6 @@ const offerSlice = createSlice({
     changeSort: (state, action: PayloadAction<TSortBy>) => {
       state.sortBy = action.payload;
     },
-    clearFavorites: (state) => {
-      state.favorites = [];
-    }
   },
   extraReducers(builder) {
     builder
@@ -52,27 +48,11 @@ const offerSlice = createSlice({
         state.isError = true;
         state.isLoading = false;
       })
-      .addCase(fetchFavorites.fulfilled, (state, action) => {
-        state.favorites = action.payload;
-      })
       .addCase(changeFavorite.fulfilled, (state, action) => {
-        const updatedOffer = action.payload;
-
+        const updated = action.payload;
         state.offers = state.offers.map((offer) =>
-          offer.id === updatedOffer.id ? updatedOffer : offer
+          offer.id === updated.id ? { ...offer, isFavorite: updated.isFavorite } : offer
         );
-
-        if (updatedOffer.isFavorite) {
-          if (!state.favorites.some((favorite) => favorite.id === updatedOffer.id)) {
-            state.favorites.push(updatedOffer);
-          } else {
-            state.favorites = state.favorites.map((favorite) =>
-              favorite.id === updatedOffer.id ? updatedOffer : favorite
-            );
-          }
-        } else {
-          state.favorites = state.favorites.filter((favorite) => favorite.id !== updatedOffer.id);
-        }
       });
   }
 });
@@ -81,10 +61,24 @@ const getOffers = (state: State) => state.offers.offers;
 const getLoadingStatus = (state: State) => state.offers.isLoading;
 const getCurrentCity = (state: State) => state.offers.city;
 const getCurrentSort = (state: State) => state.offers.sortBy;
-const getFavoriteOffers = (state: State) => state.offers.favorites;
 const getErrorStatus = (state: State) => state.offers.isError;
 
-const {changeCity, changeSort, clearFavorites } = offerSlice.actions;
+const getCityOffers = createSelector(
+  [getOffers, getCurrentCity],
+  (offers, currentCity) => offers.filter(({ city }) => city.name === currentCity.name)
+);
+
+export const getSortedCityOffers = createSelector(
+  [getCityOffers, getCurrentSort],
+  (cityOffers, currentSort) => {
+    if (currentSort === 'Popular') {
+      return cityOffers;
+    }
+    return [...cityOffers].sort(SortDictionary[currentSort]);
+  }
+);
+
+const {changeCity, changeSort } = offerSlice.actions;
 
 export {
   offerSlice,
@@ -94,7 +88,6 @@ export {
   changeCity,
   changeSort,
   getCurrentSort,
-  getFavoriteOffers,
   getErrorStatus,
-  clearFavorites
+  getCityOffers,
 };

@@ -5,24 +5,24 @@ import classNames from 'classnames';
 import { useAppDispatch } from '../../store/hooks';
 import { logoutUser } from '../../store/thunks/user';
 import { getAuthStatus, getUserData } from '../../store/slices/user-slice';
-import { getFavoriteOffers, getOffers } from '../../store/slices/offers-slice';
+import { getOffers } from '../../store/slices/offers-slice';
 
 function Layout() {
   const dispatch = useAppDispatch();
   const offers = useAppSelector(getOffers);
-  const favorites = useAppSelector(getFavoriteOffers);
   const user = useAppSelector(getUserData);
   const authStatus = useAppSelector(getAuthStatus);
   const isAuth = authStatus === AuthorizationStatus.Auth;
   const pathname = window.location.pathname as AppRoute;
   const isUserNotAuth = pathname !== AppRoute.Login;
   const navigate = useNavigate();
+  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
 
   const pageClassName = classNames({
     'page': true,
     'page--gray page--main': (pathname === AppRoute.Main),
     'page--gray page--login': (pathname === AppRoute.Login),
-    'page--favorites-empty': (pathname === AppRoute.Favorites && favorites.length === 0),
+    'page--favorites-empty': (pathname === AppRoute.Favorites && favoritesOffers.length === 0),
     'page__main--index-empty': (pathname === AppRoute.Main && offers.length === 0),
   });
 
@@ -63,8 +63,12 @@ function Layout() {
                       <Link to={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
-                        <span className="header__user-name user__name">{user.email}</span>
-                        <span className="header__favorite-count">{favorites ? favorites.length : '0'}</span>
+                        {user && (
+                          <span className="header__user-name user__name">
+                            {user.email}
+                          </span>
+                        )}
+                        <span className="header__favorite-count">{favoritesOffers ? favoritesOffers.length : 0}</span>
                       </Link>
                     </li>}
                   <li className="header__nav-item">
