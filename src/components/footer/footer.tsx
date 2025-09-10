@@ -1,6 +1,4 @@
-import { memo } from 'react';
-
-function FooterComponent() {
+function Footer() {
   return (
     <footer className="footer">
       <a className="footer__logo-link" href="main.html">
@@ -9,7 +7,5 @@ function FooterComponent() {
     </footer>
   );
 }
-
-const Footer = memo(FooterComponent);
 
 export default Footer;

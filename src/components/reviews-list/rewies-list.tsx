@@ -4,13 +4,12 @@ import { store } from '../../store';
 import { useEffect } from 'react';
 import Review from '../review/review';
 import { getReviews, getSortedReviews } from '../../store/slices/reviews-slice';
-import { memo } from 'react';
 
 type ReviewsListProps = {
   offerId: string;
 }
 
-function ReviewsListComponents({offerId}: ReviewsListProps) {
+function ReviewsList({offerId}: ReviewsListProps) {
   const reviews = useAppSelector(getReviews);
   const sortedReviews = useAppSelector(getSortedReviews);
 
@@ -27,7 +26,5 @@ function ReviewsListComponents({offerId}: ReviewsListProps) {
     </>
   );
 }
-
-const ReviewsList = memo(ReviewsListComponents);
 
 export default ReviewsList;

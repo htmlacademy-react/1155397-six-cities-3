@@ -19,3 +19,9 @@
     border-radius: 5px;
     padding: 10px 20px;
 }
+
+.error-screen__link {
+    border-bottom: 1px solid #589af8;
+    max-width: 280px; 
+    margin: 0 auto;
+}

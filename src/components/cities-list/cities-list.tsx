@@ -3,9 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { TCity } from '../../types/offers';
 import { changeCity, getCurrentCity } from '../../store/slices/offers-slice';
 import classNames from 'classnames';
-import { memo } from 'react';
 
-function CitiesListComponent() {
+function CitiesList() {
   const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
@@ -34,7 +33,5 @@ function CitiesListComponent() {
     </section>
   );
 }
-
-const CitiesList = memo(CitiesListComponent);
 
 export default CitiesList;

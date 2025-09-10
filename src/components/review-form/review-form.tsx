@@ -1,4 +1,4 @@
-import React, { useRef, memo } from 'react';
+import React, { useRef } from 'react';
 import { ChangeEventHandler, useState } from 'react';
 import { starRating, MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, DEFAULT_RATING_VALUE } from '../../const';
 import { addNewReview } from '../../store/thunks/reviews';
@@ -9,7 +9,7 @@ type ReviewsFormProps = {
   offerId: string;
 }
 
-function ReviewFormComponent({offerId}: ReviewsFormProps) {
+function ReviewForm({offerId}: ReviewsFormProps) {
   const dispatch = useAppDispatch();
   const form = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,7 +112,5 @@ function ReviewFormComponent({offerId}: ReviewsFormProps) {
     </form>
   );
 }
-
-const ReviewForm = memo(ReviewFormComponent);
 
 export default ReviewForm;

@@ -4,6 +4,7 @@ import '../error-screen/error-screen.css';
 
 function ErrorScreen() {
   const dispatch = useAppDispatch();
+
   const handleReloadBtnClick = () => {
     dispatch(fetchOffers());
   };
@@ -17,6 +18,7 @@ function ErrorScreen() {
         onClick={handleReloadBtnClick}
       >Попробовать еще раз
       </button>
+      <a className="error-screen__link" href="/">На главную</a>
     </div>
   );
 }
