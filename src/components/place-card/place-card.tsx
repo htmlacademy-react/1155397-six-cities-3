@@ -1,8 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { TPlaceCardVariant, AppRoute } from '../../const';
+import { TPlaceCardVariant, AppRoute, AuthorizationStatus } from '../../const';
 import { TOffer } from '../../types/offers';
 import { calculateStarRating } from '../../utils';
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getAuthStatus } from '../../store/slices/user-slice';
+import { changeFavorite } from '../../store/thunks/favorites';
+import { memo } from 'react';
 
 type TPlaceCardVariant = keyof typeof TPlaceCardVariant;
 
@@ -16,12 +20,16 @@ type PlaceCardProps = {
   onPlaceCardHoverChange?: never;
 }
 
-function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
+function PlaceCardComponent({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
   const {id, title, type, price, isPremium, rating, previewImage} = offer;
   const {prefix, width, height} = TPlaceCardVariant[variant];
 
-  const [isFavoriteOffer, setIsFavoriteOffer] = useState(false);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isAuth = authStatus === AuthorizationStatus.Auth;
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isFavorite = offer.isFavorite;
+  const bookmarkClass = offer.isFavorite ? 'place-card__bookmark-button--active' : '';
 
   const handleMouseEnter = onPlaceCardHoverChange && variant === 'primary'
     ? () => onPlaceCardHoverChange(id)
@@ -38,10 +46,13 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
 
   const handleBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
-    setIsFavoriteOffer(!isFavoriteOffer);
+    const status = (isFavorite) ? 0 : 1;
+    if(isAuth) {
+      dispatch(changeFavorite({offerId: id, status: status}));
+    } else {
+      navigate(AppRoute.Login);
+    }
   };
-
-  const favoriteOffer = `place-card__bookmark-button button ${isFavoriteOffer ? 'place-card__bookmark-button--active' : ''}`;
 
   return (
     <article
@@ -70,7 +81,7 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={favoriteOffer}
+            className={`place-card__bookmark-button ${bookmarkClass} button`}
             type="button"
             onClick={handleBookmark}
           >
@@ -92,8 +103,9 @@ function PlaceCard({offer, variant, onPlaceCardHoverChange}: PlaceCardProps) {
         <p className="place-card__type">{type}</p>
       </div>
     </article>
-
   );
 }
+
+const PlaceCard = memo(PlaceCardComponent);
 
 export default PlaceCard;

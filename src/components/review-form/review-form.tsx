@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { ChangeEventHandler, useState } from 'react';
 import { starRating, MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, DEFAULT_RATING_VALUE } from '../../const';
-import { fetchNewReview } from '../../store/api-action';
+import { addNewReview } from '../../store/thunks/reviews';
 import { useAppDispatch } from '../../store/hooks';
+import '../review-form/review-form.css';
 
 type ReviewsFormProps = {
   offerId: string;
@@ -33,11 +34,8 @@ function ReviewForm({offerId}: ReviewsFormProps) {
 
   const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isFormValid()) {
-      return;
-    }
     setIsSubmitting(true);
-    dispatch(fetchNewReview({
+    dispatch(addNewReview({
       ...formData,
       onSuccess: (successMessage) => {
         setFormData({ comment: '', rating: 0, offerId });
@@ -57,12 +55,12 @@ function ReviewForm({offerId}: ReviewsFormProps) {
   return (
     <form ref={form} className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
       {error && (
-        <div className="form__error" style={{ color: '#b22222', backgroundColor: '#ffeded', padding: '10px', marginBottom: '10px', borderRadius: '6px', fontSize: '14px', }}>
+        <div className="form__message form__error">
           {error}
         </div>
       )}
       {success && (
-        <div className="form__error" style={{ color: '#334d18', backgroundColor: '#b3fabeff', padding: '10px', marginBottom: '10px', borderRadius: '6px', fontSize: '14px', }}>
+        <div className="form__message form__success">
           {success}
         </div>
       )}

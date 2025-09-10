@@ -1,15 +1,15 @@
 import { CITIES } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectCity } from '../../store/action';
 import { TCity } from '../../types/offers';
+import { changeCity, getCurrentCity } from '../../store/slices/offers-slice';
 import classNames from 'classnames';
 
 function CitiesList() {
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
   const getCityClickHandler = (city: TCity) => () => {
-    dispatch(selectCity(city));
+    dispatch(changeCity(city));
   };
 
   return (

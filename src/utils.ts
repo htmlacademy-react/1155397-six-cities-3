@@ -16,43 +16,6 @@ export const sortReviewsByDate = (reviews: TReviews | null) => {
   return reviews;
 };
 
-const getRandomInteger = (a: number, b: number) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-export const generateRandomIndex = (a: number, b: number) => {
-  const indexNumbers: number[] = [];
-  return () => {
-    let currentIndex = getRandomInteger(a, b);
-    if (indexNumbers.length === Math.floor(Math.max(a, b) + 1)) {
-      return '';
-    }
-    while (indexNumbers.includes(currentIndex)) {
-      currentIndex = getRandomInteger(a, b);
-    }
-    indexNumbers.push(currentIndex);
-    return currentIndex;
-  };
-};
-
-export const getRandomSubArray = <T>(arr: T[], count: number) => {
-  if (arr.length <= count) {
-    return arr;
-  }
-  const newArray: T[] = [];
-  const indexGenerator = generateRandomIndex(0, arr.length - 1);
-  for (let i = 0; i < count; i++) {
-    const index = indexGenerator();
-    if (index) {
-      newArray.push(arr[index]);
-    }
-  }
-  return newArray;
-};
-
 export const SortDictionary: TSortDictionary = {
   'Popular': null,
   'Price: low to high': (a, b) => a.price - b.price,

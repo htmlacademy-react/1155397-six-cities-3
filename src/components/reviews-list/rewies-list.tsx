@@ -1,17 +1,18 @@
 import { useAppSelector } from '../../store/hooks';
-import { fetchReviews } from '../../store/api-action';
+import { fetchReviews } from '../../store/thunks/reviews';
 import { store } from '../../store';
 import { useEffect } from 'react';
 import Review from '../review/review';
-import { sortReviewsByDate } from '../../utils';
+import { getReviews, getSortedReviews } from '../../store/slices/reviews-slice';
 
 type ReviewsListProps = {
   offerId: string;
 }
 
 function ReviewsList({offerId}: ReviewsListProps) {
-  const reviews = useAppSelector((state) => state.reviews);
-  sortReviewsByDate(reviews);
+  const reviews = useAppSelector(getReviews);
+  const sortedReviews = useAppSelector(getSortedReviews);
+
   useEffect(() => {
     store.dispatch(fetchReviews(offerId));
   }, [offerId]);
@@ -20,7 +21,7 @@ function ReviewsList({offerId}: ReviewsListProps) {
     <>
       <h2 className="reviews__title">Reviews&middot; <span className="reviews__amount">{ reviews.length}</span></h2>
       <ul className="reviews__list">
-        {reviews && reviews.slice(0,10).map((review) => <Review key={review.id} review={review} />)}
+        {sortedReviews && sortedReviews.slice(0,10).map((review) => <Review key={`${review.id}-${review.date}`} review={review} />)}
       </ul>
     </>
   );
