@@ -33,6 +33,9 @@ const offerSlice = createSlice({
     changeSort: (state, action: PayloadAction<TSortBy>) => {
       state.sortBy = action.payload;
     },
+    resetFavorites: (state) => {
+      state.offers = state.offers.map((offer) => ({ ...offer, isFavorite: false }));
+    }
   },
   extraReducers(builder) {
     builder
@@ -78,7 +81,7 @@ export const getSortedCityOffers = createSelector(
   }
 );
 
-const {changeCity, changeSort } = offerSlice.actions;
+const {changeCity, changeSort, resetFavorites } = offerSlice.actions;
 
 export {
   offerSlice,
@@ -90,4 +93,5 @@ export {
   getCurrentSort,
   getErrorStatus,
   getCityOffers,
+  resetFavorites
 };

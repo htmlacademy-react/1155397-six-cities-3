@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { logoutUser } from '../../store/thunks/user';
 import { getAuthStatus, getUserData } from '../../store/slices/user-slice';
 import { getOffers } from '../../store/slices/offers-slice';
+import { resetFavorites } from '../../store/slices/offers-slice';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ function Layout() {
     e.preventDefault();
     if(isAuth) {
       dispatch(logoutUser());
+      dispatch(resetFavorites());
       navigate(AppRoute.Main);
     } else {
       navigate(AppRoute.Login);

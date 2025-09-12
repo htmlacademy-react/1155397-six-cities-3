@@ -37,8 +37,8 @@ function Offer() {
 
   const handleBookmark: MouseEventHandler<HTMLButtonElement> = () => {
     if(currentOffer) {
-      const status = (currentOffer.isFavorite) ? 0 : 1;
-      if(isAuth) {
+      if(isAuth === AuthorizationStatus.Auth) {
+        const status = (currentOffer.isFavorite) ? 0 : 1;
         dispatch(changeFavorite({offerId: currentOffer.id, status: status}));
       } else {
         navigate(AppRoute.Login);
