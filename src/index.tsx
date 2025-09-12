@@ -6,8 +6,13 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { checkAuthorization } from './store/thunks/user';
+import { fetchFavorites } from './store/thunks/favorites';
+import { fetchOffers } from './store/thunks/offers';
+
 
 store.dispatch(checkAuthorization());
+store.dispatch(fetchOffers());
+store.dispatch(fetchFavorites());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

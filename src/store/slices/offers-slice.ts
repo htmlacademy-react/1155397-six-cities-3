@@ -4,7 +4,7 @@ import { TSortBy } from '../../types/sort';
 import { CITIES } from '../../const';
 import { fetchOffers } from '../thunks/offers';
 import { State } from '../../types/state';
-import { changeFavorite } from '../thunks/favorites';
+import { changeFavorite, fetchFavorites } from '../thunks/favorites';
 import { SortDictionary } from '../../utils';
 
 type TOffersState = {
@@ -33,6 +33,9 @@ const offerSlice = createSlice({
     changeSort: (state, action: PayloadAction<TSortBy>) => {
       state.sortBy = action.payload;
     },
+    resetFavorites: (state) => {
+      state.offers = state.offers.map((offer) => ({ ...offer, isFavorite: false }));
+    }
   },
   extraReducers(builder) {
     builder
@@ -53,6 +56,17 @@ const offerSlice = createSlice({
         state.offers = state.offers.map((offer) =>
           offer.id === updated.id ? { ...offer, isFavorite: updated.isFavorite } : offer
         );
+      })
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        const favorites = action.payload || [];
+        const favoritesId = new Set(favorites.map((favorite) => favorite.id));
+
+        if (state.offers.length > 0) {
+          state.offers = state.offers.map((offer) => ({
+            ...offer,
+            isFavorite: favoritesId.has(offer.id),
+          }));
+        }
       });
   }
 });
@@ -78,7 +92,7 @@ export const getSortedCityOffers = createSelector(
   }
 );
 
-const {changeCity, changeSort } = offerSlice.actions;
+const {changeCity, changeSort, resetFavorites } = offerSlice.actions;
 
 export {
   offerSlice,
@@ -90,4 +104,5 @@ export {
   getCurrentSort,
   getErrorStatus,
   getCityOffers,
+  resetFavorites
 };

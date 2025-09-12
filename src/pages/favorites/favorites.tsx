@@ -45,7 +45,7 @@ function Favorites() {
                         <div className="favorites__places">
                           <PlacesList
                             offers={cityOffers}
-                            cardVariant={'favorite'}
+                            cardVariant='favorite'
                           />
                         </div>
                       </li>
