@@ -4,7 +4,7 @@ import { TSortBy } from '../../types/sort';
 import { CITIES } from '../../const';
 import { fetchOffers } from '../thunks/offers';
 import { State } from '../../types/state';
-import { changeFavorite } from '../thunks/favorites';
+import { changeFavorite, fetchFavorites } from '../thunks/favorites';
 import { SortDictionary } from '../../utils';
 
 type TOffersState = {
@@ -56,6 +56,17 @@ const offerSlice = createSlice({
         state.offers = state.offers.map((offer) =>
           offer.id === updated.id ? { ...offer, isFavorite: updated.isFavorite } : offer
         );
+      })
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        const favorites = action.payload || [];
+        const favoritesId = new Set(favorites.map((favorite) => favorite.id));
+
+        if (state.offers.length > 0) {
+          state.offers = state.offers.map((offer) => ({
+            ...offer,
+            isFavorite: favoritesId.has(offer.id),
+          }));
+        }
       });
   }
 });

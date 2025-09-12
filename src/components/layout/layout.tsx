@@ -7,6 +7,8 @@ import { logoutUser } from '../../store/thunks/user';
 import { getAuthStatus, getUserData } from '../../store/slices/user-slice';
 import { getOffers } from '../../store/slices/offers-slice';
 import { resetFavorites } from '../../store/slices/offers-slice';
+import { useEffect } from 'react';
+import { fetchFavorites } from '../../store/thunks/favorites';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -18,6 +20,12 @@ function Layout() {
   const isUserNotAuth = pathname !== AppRoute.Login;
   const navigate = useNavigate();
   const favoritesOffers = offers.filter((offer) => offer.isFavorite);
+
+  useEffect(() => {
+    if (isAuth) {
+      dispatch(fetchFavorites());
+    }
+  }, [dispatch, isAuth]);
 
   const pageClassName = classNames({
     'page': true,
