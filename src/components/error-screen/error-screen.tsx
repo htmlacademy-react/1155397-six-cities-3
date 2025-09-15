@@ -2,6 +2,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { fetchOffers } from '../../store/thunks/offers';
 import '../error-screen/error-screen.css';
 import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
 
 function ErrorScreen() {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ function ErrorScreen() {
         onClick={handleReloadBtnClick}
       >Попробовать еще раз
       </button>
-      <a className="error-screen__link" href={AppRoute.Main}>На главную</a>
+      <Link className="error-screen__link" to={AppRoute.Main}>На главную</Link>
     </div>
   );
 }

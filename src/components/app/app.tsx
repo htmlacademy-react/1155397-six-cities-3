@@ -20,37 +20,27 @@ function App() {
   const isLoading = useAppSelector(getLoadingStatus);
   const isError = useAppSelector(getErrorStatus);
 
-  if(isLoading) {
-    return (
-      <HelmetProvider>
-        <Loader/>
-      </HelmetProvider>
-    );
-  }
-
-  if(isError) {
-    return (
-      <ErrorScreen/>
-    );
-  }
-
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route path={AppRoute.Main} element={<Layout />}>
-            <Route index path={AppRoute.Main} element={ <Main />} />
-            <Route path={AppRoute.Login} element={ <Login /> } />
-            <Route path={AppRoute.Favorites} element={
-              <PrivateRoute>
-                <Favorites />
-              </PrivateRoute>
-            }
-            />
-            <Route path={`${AppRoute.Offer}/:offerId`} element={ <Offer /> } />
-          </Route>
-          <Route path={AppRoute.NotFound} element={ <NotFound /> }></Route>
-        </Routes>
+        { isLoading && <Loader /> }
+        { !isLoading && isError && <ErrorScreen /> }
+        { !isLoading && !isError && (
+          <Routes>
+            <Route path={AppRoute.Main} element={<Layout />}>
+              <Route index path={AppRoute.Main} element={ <Main />} />
+              <Route path={AppRoute.Login} element={ <Login /> } />
+              <Route path={AppRoute.Favorites} element={
+                <PrivateRoute>
+                  <Favorites />
+                </PrivateRoute>
+              }
+              />
+              <Route path={`${AppRoute.Offer}/:offerId`} element={ <Offer /> } />
+            </Route>
+            <Route path={AppRoute.NotFound} element={ <NotFound /> }></Route>
+          </Routes>
+        )}
       </HistoryRouter>
     </HelmetProvider>
   );
